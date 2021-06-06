@@ -31,7 +31,7 @@ theme = "beautifulhugo"
 
 [Author]
   name = "Pedro Batista"
-  website = "pedrovhb.com"
+  website = "/page/about"
   email = "pedrovhb@gmail.com"
   github = "pedrovhb"
   linkedin = "pedrovhb"
@@ -74,3 +74,7 @@ theme = "beautifulhugo"
     name = "Tags"
     url = "tags"
     weight = 3
+
+[markup.goldmark.renderer]
+  unsafe = true
+

@@ -1,0 +1,76 @@
+baseURL = "https://pedrovhb.com/"
+languageCode = "en-us"
+title = "Pedro's Blog"
+theme = "beautifulhugo"
+
+[languages]
+  [languages.en]
+    contentDir = "content/en" # English
+  [languages.br]
+    title = "Blog do Pedro"
+    contentDir = "content/br" # Brazilian Portuguese
+
+
+
+[Params]
+#  homeTitle = "Beautiful Hugo Theme" # Set a different text for the header on the home page
+  subtitle = "Build a beautiful and simple website in minutes"
+  mainSections = ["post","posts"]
+#  logo = "img/avatar.png" # Expecting square dimensions
+  favicon = "img/favicon.ico"
+  dateFormat = "2006-01-02"
+  commit = false
+  rss = false
+  comments = true
+  readingTime = true
+  wordCount = false
+  useHLJS = true
+  socialShare = false
+  showRelatedPosts = true
+
+
+[Author]
+  name = "Pedro Batista"
+  website = "pedrovhb.com"
+  email = "pedrovhb@gmail.com"
+  github = "pedrovhb"
+  linkedin = "pedrovhb"
+  stackoverflow = "users/5686598/pedro-von-hertwig-batista"
+
+[[menu.main]]
+    name = "Blog"
+    url = ""
+    weight = 1
+
+[[menu.main]]
+    name = "About"
+    url = "page/about/"
+    weight = 3
+
+[[menu.main]]
+    identifier = "samples"
+    name = "Samples"
+    weight = 2
+
+[[menu.main]]
+    parent = "samples"
+    name = "Big Image Sample"
+    url = "post/2017-03-07-bigimg-sample"
+    weight = 1
+
+[[menu.main]]
+    parent = "samples"
+    name = "Math Sample"
+    url = "post/2017-03-05-math-sample"
+    weight = 2
+
+[[menu.main]]
+    parent = "samples"
+    name = "Code Sample"
+    url = "post/2016-03-08-code-sample"
+    weight = 3
+
+[[menu.main]]
+    name = "Tags"
+    url = "tags"
+    weight = 3

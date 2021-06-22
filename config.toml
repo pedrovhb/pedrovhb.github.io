@@ -3,18 +3,9 @@ languageCode = "en-us"
 title = "Pedro's Blog"
 theme = "beautifulhugo"
 
-[languages]
-  [languages.en]
-    contentDir = "content/en" # English
-  [languages.br]
-    title = "Blog do Pedro"
-    contentDir = "content/br" # Brazilian Portuguese
-
-
-
 [Params]
-#  homeTitle = "Beautiful Hugo Theme" # Set a different text for the header on the home page
-  subtitle = "Build a beautiful and simple website in minutes"
+  homeTitle = "Pedro's blog"
+#  subtitle = ""
   mainSections = ["post","posts"]
 #  logo = "img/avatar.png" # Expecting square dimensions
   favicon = "img/favicon.ico"
@@ -47,33 +38,33 @@ theme = "beautifulhugo"
     url = "page/about/"
     weight = 3
 
-[[menu.main]]
-    identifier = "samples"
-    name = "Samples"
-    weight = 2
-
-[[menu.main]]
-    parent = "samples"
-    name = "Big Image Sample"
-    url = "post/2017-03-07-bigimg-sample"
-    weight = 1
-
-[[menu.main]]
-    parent = "samples"
-    name = "Math Sample"
-    url = "post/2017-03-05-math-sample"
-    weight = 2
-
-[[menu.main]]
-    parent = "samples"
-    name = "Code Sample"
-    url = "post/2016-03-08-code-sample"
-    weight = 3
-
-[[menu.main]]
-    name = "Tags"
-    url = "tags"
-    weight = 3
+#[[menu.main]]
+#    identifier = "samples"
+#    name = "Samples"
+#    weight = 2
+#
+#[[menu.main]]
+#    parent = "samples"
+#    name = "Big Image Sample"
+#    url = "post/2017-03-07-bigimg-sample"
+#    weight = 1
+#
+#[[menu.main]]
+#    parent = "samples"
+#    name = "Math Sample"
+#    url = "post/2017-03-05-math-sample"
+#    weight = 2
+#
+#[[menu.main]]
+#    parent = "samples"
+#    name = "Code Sample"
+#    url = "post/2016-03-08-code-sample"
+#    weight = 3
+#
+#[[menu.main]]
+#    name = "Tags"
+#    url = "tags"
+#    weight = 3
 
 [markup.goldmark.renderer]
   unsafe = true

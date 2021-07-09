@@ -1,6 +1,6 @@
 ---
 title: "Probabilistic data structures - bloom filters"
-date: 2021-06-20T17:24:16-03:00
+date: 2021-06-20T17:24:16-03:00 
 draft: false
 ------------
 
@@ -63,7 +63,7 @@ in the filter. If all resulting bits are also set in the filter, it means either
 
 - The value was previously added to the bloom filter and it's a positive
 - By coincidence, the hashes of other values have set the all the same bits and
-it's a false positive
+  it's a false positive
 
 Hash functions are designed have sparse and uniformly distributed results so
 false positives are as unlikely as possible, but it can happen.
@@ -116,7 +116,7 @@ Of course, we need to think about the details for our specific problem. This
 works best when we expect most checked files to not be contained in the set.
 Also, there's no way to remove elements from the filter, so we have to rebuild
 it when files are deleted or moved. and it might not be worth it if that happens
- often (though we can keep partial filters and rebuild only a deleted file's
+often (though we can keep partial filters and rebuild only a deleted file's
 directory's filter, for instance; combining them is as simple as OR).
 
 Hopefully that adds a tool to your arsenal, and gets you interested in
@@ -124,5 +124,5 @@ probabilistic data structures. Stay tuned for the next part in which we'll have
 a quick look over HyperLogLog!
 
 *This was originally posted on 2019-09-06 as a one-part post on my old blog,
-which I ended up losing. Recovered it from LinkedIn, made some changes and
-split it in two for easier digestion. Second part coming soon :)*
+which I ended up losing. Recovered it from LinkedIn, made some changes and split
+it in two for easier digestion. Second part coming soon :)*

@@ -1,21 +1,123 @@
-<!doctype html><html lang=en itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>Probabilistic data structures - bloom filters - Pedro's Blog</title><meta name=description content="Traditionally in programming we think about 0s and 1s as being infallible. They either are, or aren&rsquo;t, and other than for cosmic rays flipping bits in RAM (it happens) there&rsquo;s not much margin for uncertainty. It&rsquo;s one of the nice things about computers: our memory is imperfect, but theirs isn&rsquo;t.
-What if we could trade off a bit of this consistency for a lot of performance, though? Well, it turns out that we sometimes can, by using probabilistic data structures."><meta name=author content="Pedro Batista"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Pedro\u0027s Blog","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pedrovhb.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pedrovhb.com\/posts\/probabilistic_data_structures\/","name":"Probabilistic data structures bloom filters"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Pedro Batista"},"headline":"Probabilistic data structures - bloom filters","description":"Traditionally in programming we think about 0s and 1s as being infallible. They either are, or aren\u0026rsquo;t, and other than for cosmic rays flipping bits in RAM (it happens) there\u0026rsquo;s not much margin for uncertainty. It\u0026rsquo;s one of the nice things about computers: our memory is imperfect, but theirs isn\u0026rsquo;t.\nWhat if we could trade off a bit of this consistency for a lot of performance, though? Well, it turns out that we sometimes can, by using probabilistic data structures.","inLanguage":"en","wordCount":1243,"datePublished":"2021-06-20T17:24:16","dateModified":"2021-06-20T17:24:16","image":"https:\/\/pedrovhb.com\/","keywords":[""],"mainEntityOfPage":"https:\/\/pedrovhb.com\/posts\/probabilistic_data_structures\/","publisher":{"@type":"Organization","name":"https:\/\/pedrovhb.com\/","logo":{"@type":"ImageObject","url":"https:\/\/pedrovhb.com\/","height":60,"width":60}}}</script><meta property="og:title" content="Probabilistic data structures - bloom filters"><meta property="og:description" content="Traditionally in programming we think about 0s and 1s as being infallible. They either are, or aren&rsquo;t, and other than for cosmic rays flipping bits in RAM (it happens) there&rsquo;s not much margin for uncertainty. It&rsquo;s one of the nice things about computers: our memory is imperfect, but theirs isn&rsquo;t.
-What if we could trade off a bit of this consistency for a lot of performance, though? Well, it turns out that we sometimes can, by using probabilistic data structures."><meta property="og:url" content="https://pedrovhb.com/posts/probabilistic_data_structures/"><meta property="og:type" content="website"><meta property="og:site_name" content="Pedro's Blog"><meta name=twitter:title content="Probabilistic data structures - bloom filters"><meta name=twitter:description content="Traditionally in programming we think about 0s and 1s as being infallible. They either are, or aren&rsquo;t, and other than for cosmic rays flipping bits in RAM (it happens) there&rsquo;s not much …"><meta name=twitter:card content="summary"><link href=https://pedrovhb.com/img/favicon.ico rel=icon type=image/x-icon><meta name=generator content="Hugo 0.85.0"><link rel=alternate href=https://pedrovhb.com/index.xml type=application/rss+xml title="Pedro's Blog"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://pedrovhb.com/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://pedrovhb.com/css/highlight.min.css><link rel=stylesheet href=https://pedrovhb.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<!doctype html><html lang=en itemscope itemtype=http://schema.org/WebPage>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Probabilistic data structures - bloom filters - Pedro's Blog</title>
+<meta name=description content="Traditionally in programming we think about 0s and 1s as being infallible. They either are, or aren&rsquo;t, and other than for cosmic rays flipping bits in RAM (it happens) there&rsquo;s not much margin for uncertainty. It&rsquo;s one of the nice things about computers: our memory is imperfect, but theirs isn&rsquo;t.
+What if we could trade off a bit of this consistency for a lot of performance, though? Well, it turns out that we sometimes can, by using probabilistic data structures.">
+<meta name=author content="Pedro Batista"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Pedro\u0027s Blog","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/pedrovhb.com\/"}</script>
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pedrovhb.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pedrovhb.com\/posts\/probabilistic_data_structures\/","name":"Probabilistic data structures bloom filters"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Pedro Batista"},"headline":"Probabilistic data structures - bloom filters","description":"Traditionally in programming we think about 0s and 1s as being infallible. They either are, or aren\u0026rsquo;t, and other than for cosmic rays flipping bits in RAM (it happens) there\u0026rsquo;s not much margin for uncertainty. It\u0026rsquo;s one of the nice things about computers: our memory is imperfect, but theirs isn\u0026rsquo;t.\nWhat if we could trade off a bit of this consistency for a lot of performance, though? Well, it turns out that we sometimes can, by using probabilistic data structures.","inLanguage":"en","wordCount":1243,"datePublished":"2021-06-20T17:24:16","dateModified":"2021-06-20T17:24:16","image":"https:\/\/pedrovhb.com\/","keywords":[""],"mainEntityOfPage":"https:\/\/pedrovhb.com\/posts\/probabilistic_data_structures\/","publisher":{"@type":"Organization","name":"https:\/\/pedrovhb.com\/","logo":{"@type":"ImageObject","url":"https:\/\/pedrovhb.com\/","height":60,"width":60}}}</script>
+<meta property="og:title" content="Probabilistic data structures - bloom filters">
+<meta property="og:description" content="Traditionally in programming we think about 0s and 1s as being infallible. They either are, or aren&rsquo;t, and other than for cosmic rays flipping bits in RAM (it happens) there&rsquo;s not much margin for uncertainty. It&rsquo;s one of the nice things about computers: our memory is imperfect, but theirs isn&rsquo;t.
+What if we could trade off a bit of this consistency for a lot of performance, though? Well, it turns out that we sometimes can, by using probabilistic data structures.">
+<meta property="og:url" content="https://pedrovhb.com/posts/probabilistic_data_structures/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pedro's Blog">
+<meta name=twitter:title content="Probabilistic data structures - bloom filters">
+<meta name=twitter:description content="Traditionally in programming we think about 0s and 1s as being infallible. They either are, or aren&rsquo;t, and other than for cosmic rays flipping bits in RAM (it happens) there&rsquo;s not much …">
+<meta name=twitter:card content="summary">
+<link href=https://pedrovhb.com/img/favicon.ico rel=icon type=image/x-icon>
+<meta name=generator content="Hugo 0.86.0">
+<link rel=alternate href=https://pedrovhb.com/index.xml type=application/rss+xml title="Pedro's Blog"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous>
+<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://pedrovhb.com/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
+<link rel=stylesheet href=https://pedrovhb.com/css/highlight.min.css><link rel=stylesheet href=https://pedrovhb.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+<div class=container-fluid>
+<div class=navbar-header>
+<button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
 <span class=sr-only>Toggle navigation</span>
-<span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button>
-<a class=navbar-brand href=https://pedrovhb.com/>Pedro's Blog</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"><li><a title=Blog href=/>Blog</a></li><li><a title=About href=/page/about/>About</a></li></ul></div></div></nav><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=https://pedrovhb.com/>Pedro's Blog</a>
+</div>
+<div class="collapse navbar-collapse" id=main-navbar>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a title=Blog href=/>Blog</a>
+</li>
+<li>
+<a title=About href=/page/about/>About</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<div class=pswp tabindex=-1 role=dialog aria-hidden=true>
+<div class=pswp__bg></div>
+<div class=pswp__scroll-wrap>
+<div class=pswp__container>
+<div class=pswp__item></div>
+<div class=pswp__item></div>
+<div class=pswp__item></div>
+</div>
+<div class="pswp__ui pswp__ui--hidden">
+<div class=pswp__top-bar>
+<div class=pswp__counter></div>
+<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 <button class="pswp__button pswp__button--share" title=Share></button>
 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><header class=header-section><div class="intro-header no-img"><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=posts-heading><h1>Probabilistic data structures - bloom filters</h1><hr class=small></div></div></div></div></div></header><div class=container role=main><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><article role=main class=blog-post><hr><p>Traditionally in programming we think about 0s and 1s as being infallible. They
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+<div class=pswp__preloader>
+<div class=pswp__preloader__icn>
+<div class=pswp__preloader__cut>
+<div class=pswp__preloader__donut></div>
+</div>
+</div>
+</div>
+</div>
+<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+<div class=pswp__share-tooltip></div>
+</div>
+<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+</button>
+<div class=pswp__caption>
+<div class=pswp__caption__center></div>
+</div>
+</div>
+</div>
+</div>
+<header class=header-section>
+<div class="intro-header no-img">
+<div class=container>
+<div class=row>
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class=posts-heading>
+<h1>Probabilistic data structures - bloom filters</h1>
+<hr class=small>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class=container role=main>
+<div class=row>
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<article role=main class=blog-post>
+<hr>
+<p>Traditionally in programming we think about 0s and 1s as being infallible. They
 either are, or aren&rsquo;t, and other than for cosmic rays flipping bits in RAM (it
 happens) there&rsquo;s not much margin for uncertainty. It&rsquo;s one of the nice things
-about computers: our memory is imperfect, but theirs isn&rsquo;t.</p><p>What if we could trade off a bit of this consistency for a lot of performance,
+about computers: our memory is imperfect, but theirs isn&rsquo;t.</p>
+<p>What if we could trade off a bit of this consistency for a lot of performance,
 though? Well, it turns out that we sometimes can, by using <strong>probabilistic data
-structures</strong>. These are very useful tools for a few specific use cases.</p><p>Let me tell you about two of them and how they may be used. This blog post will
+structures</strong>. These are very useful tools for a few specific use cases.</p>
+<p>Let me tell you about two of them and how they may be used. This blog post will
 cover bloom filters, and in a second part we&rsquo;ll go over HyperLogLog. I won&rsquo;t go
 deep into how they work internally (even though that&rsquo;s fascinating) in order to
-focus on giving a high-level overview of tradeoffs and practical applications.</p><h2 id=bloom-filters>Bloom filters</h2><p>A bloom filter is a probabilistic data structure that can quickly and
+focus on giving a high-level overview of tradeoffs and practical applications.</p>
+<h2 id=bloom-filters>Bloom filters</h2>
+<p>A bloom filter is a probabilistic data structure that can quickly and
 efficiently check whether an elements is included in a (possibly very large) set
 of values. It offers only two operations: adding elements and verifying
 membership, both of which are executed in constant time (in other words, they&rsquo;re
@@ -23,46 +125,66 @@ O(1) operations). That&rsquo;s it - you can&rsquo;t remove an element after addi
 you also can&rsquo;t retrieve previously inserted elements or iterate over them.
 Another thing to know is that, as per the theme of the post, it&rsquo;s fallible,
 meaning it doesn&rsquo;t always return the correct answer if you ask it whether an
-element is contained or not.</p><p>So this sounds pretty bad. Why would anyone use that?</p><p>Well, the reason anyone uses probabilistic data structures is that they&rsquo;re
-really damn efficient.</p><p>Parameters are customizable, and you can have as much or as little accuracy as
+element is contained or not.</p>
+<p>So this sounds pretty bad. Why would anyone use that?</p>
+<p>Well, the reason anyone uses probabilistic data structures is that they&rsquo;re
+really damn efficient.</p>
+<p>Parameters are customizable, and you can have as much or as little accuracy as
 you want, but a ballpark figure is that <strong>an optimized bloom filter set with
-0.1% error rate requires only around 14.4 bits of memory per element</strong>.</p><p>Those are bits, not bytes. If we&rsquo;re expecting our total set to contain about 10
+0.1% error rate requires only around 14.4 bits of memory per element</strong>.</p>
+<p>Those are bits, not bytes. If we&rsquo;re expecting our total set to contain about 10
 thousand elements, then the size taken up by the bloom filter for that will be
 only about 18 kB. This size also isn&rsquo;t affected by the size of the objects
 contained; we could be keeping track of 10k distinct integers, or 10k
-multi-gigabyte video files, and the final number would be the same 18 kB. Cool!</p><p>It&rsquo;s also not fair to just say &ldquo;it doesn&rsquo;t always return the correct answer&rdquo;.
+multi-gigabyte video files, and the final number would be the same 18 kB. Cool!</p>
+<p>It&rsquo;s also not fair to just say &ldquo;it doesn&rsquo;t always return the correct answer&rdquo;.
 The defining property of bloom filters is that false positive matches are
 possible, but false negatives are not. It tells you either &ldquo;this element is
 probably in the set&rdquo; or &ldquo;this element is definitely not in the set&rdquo;. If it says
-something isn&rsquo;t contained in the set, you can be 100% sure it really isn&rsquo;t.</p><h3 id=but-how>But how?</h3><p>For a <em>very</em> brief description of how it works - the bloom filter uses multiple
+something isn&rsquo;t contained in the set, you can be 100% sure it really isn&rsquo;t.</p>
+<h3 id=but-how>But how?</h3>
+<p>For a <em>very</em> brief description of how it works - the bloom filter uses multiple
 hash functions to process the input, and maps the results to a bit array, OR&rsquo;ing
-previous items that were there.</p><p>When a query comes in, the value to be checked is hashed the same way as values
+previous items that were there.</p>
+<p>When a query comes in, the value to be checked is hashed the same way as values
 added to the filter are, and the resulting set bits are compared to the bits set
-in the filter. If all resulting bits are also set in the filter, it means either</p><ul><li>The value was previously added to the bloom filter and it&rsquo;s a positive</li><li>By coincidence, the hashes of other values have set the all the same bits and
-it&rsquo;s a false positive</li></ul><p>Hash functions are designed have sparse and uniformly distributed results so
-false positives are as unlikely as possible, but it can happen.</p><p>If any of the resulting bits set in the value&rsquo;s hash are <em>not</em> set in the bloom
+in the filter. If all resulting bits are also set in the filter, it means either</p>
+<ul>
+<li>The value was previously added to the bloom filter and it&rsquo;s a positive</li>
+<li>By coincidence, the hashes of other values have set the all the same bits and
+it&rsquo;s a false positive</li>
+</ul>
+<p>Hash functions are designed have sparse and uniformly distributed results so
+false positives are as unlikely as possible, but it can happen.</p>
+<p>If any of the resulting bits set in the value&rsquo;s hash are <em>not</em> set in the bloom
 filter, then we know for sure that the value can&rsquo;t have been added to the filter
 previously. Adding a value is simple as OR&rsquo;ing the current bloom filter with the
-result of its check.</p><h3 id=where-to-use-it>Where to use it</h3><p>So what applications does this interesting set of properties lend itself to?</p><p>For a long time, Chrome shipped with a pre-built bloom filter of known malicious
+result of its check.</p>
+<h3 id=where-to-use-it>Where to use it</h3>
+<p>So what applications does this interesting set of properties lend itself to?</p>
+<p>For a long time, Chrome shipped with a pre-built bloom filter of known malicious
 URLs. When a user accessed a website, Chrome checked the bloom filter to see if
 the URL was contained within it. If not, it&rsquo;d let the request through as normal,
 and the check was pretty fast as it happened locally. If the filter said the URL
 may be contained in the bad website list (which isn&rsquo;t, hopefully, the most
 frequent case) then it would make a request to Google&rsquo;s servers to ask if the
 URL was dangerous for sure, and flash a scary red screen to warn the user if it
-was.</p><p>The cost incurred was a tiny amount of storage for the end user (in the order of
+was.</p>
+<p>The cost incurred was a tiny amount of storage for the end user (in the order of
 kilobytes of disk/memory), and the upside was that a ton of requests were
 avoided, saving Google lots of money in server costs and making the user&rsquo;s
 experience instant in almost all cases. In fact, I&rsquo;d say the entire feature was
 made possible by the data structure, as it&rsquo;d be impractically costly and slow to
 check each website accessed by each user and including a several-megabyte list
-of URLs in an installer is a big ask.</p><p>A similar idea is to keep a bloom filter as a sort of index to prevent
+of URLs in an installer is a big ask.</p>
+<p>A similar idea is to keep a bloom filter as a sort of index to prevent
 unnecessary I/O operations. In a file storage system, for instance, we may have
 several hundred thousand different files. Disk operations are slow compared to
 CPU cycles and RAM access, and if your program needs to check whether some of
 these files exist (maybe you want to try to access them only if they do), it may
 spend a lot of time waiting for the disk to spin up, look for the file you want,
-and come back to you with an answer.</p><p>You could scan the disk once and store each existing filepath in an in-memory
+and come back to you with an answer.</p>
+<p>You could scan the disk once and store each existing filepath in an in-memory
 hashlist for quickly checking, and that&rsquo;s a great idea, but we can avoid a big
 chunk of the resulting memory cost by using a bloom filter instead. When you
 need to check for a file&rsquo;s existence, query the bloom filter - if the file
@@ -70,21 +192,87 @@ doesn&rsquo;t exist, it&rsquo;ll tell you immediately. If the bloom filter says 
 <em>probably</em> exists (remember, false positives are possible), then you&rsquo;ll need to
 hit the disk and check. The benefit is that you save a lot of time on negative
 hits for only a negligible memory cost. The time saved is even larger if these
-checks happen over a network instead of a disk.</p><p>Of course, we need to think about the details for our specific problem. This
+checks happen over a network instead of a disk.</p>
+<p>Of course, we need to think about the details for our specific problem. This
 works best when we expect most checked files to not be contained in the set.
 Also, there&rsquo;s no way to remove elements from the filter, so we have to rebuild
 it when files are deleted or moved. and it might not be worth it if that happens
 often (though we can keep partial filters and rebuild only a deleted file&rsquo;s
-directory&rsquo;s filter, for instance; combining them is as simple as OR).</p><p>Hopefully that adds a tool to your arsenal, and gets you interested in
+directory&rsquo;s filter, for instance; combining them is as simple as OR).</p>
+<p>Hopefully that adds a tool to your arsenal, and gets you interested in
 probabilistic data structures. Stay tuned for the next part in which we&rsquo;ll have
-a quick look over HyperLogLog!</p><p><em>This was originally posted on 2019-09-06 as a one-part post on my old blog,
+a quick look over HyperLogLog!</p>
+<p><em>This was originally posted on 2019-09-06 as a one-part post on my old blog,
 which I ended up losing. Recovered it from LinkedIn, made some changes and split
-it in two for easier digestion. Second part coming soon :)</em></p></article><ul class="pager blog-pager"><li class=next><a href=https://pedrovhb.com/posts/fast_reshaping_with_iterators/ data-toggle=tooltip data-placement=top title="Fast reshaping with iterators">Next Post &rarr;</a></li></ul></div></div></div><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"><li><a href=mailto:pedrovhb@gmail.com title="Email me"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
-<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://github.com/pedrovhb title=GitHub><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://linkedin.com/in/pedrovhb title=LinkedIn><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://stackoverflow.com/users/5686598/pedro-von-hertwig-batista title=StackOverflow><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="credits copyright text-muted"><a href=/page/about>Pedro Batista</a>
+it in two for easier digestion. Second part coming soon :)</em></p>
+</article>
+<ul class="pager blog-pager">
+<li class=next>
+<a href=https://pedrovhb.com/posts/fast_reshaping_with_iterators/ data-toggle=tooltip data-placement=top title="Fast reshaping with iterators">Next Post &rarr;</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<footer>
+<div class=container>
+<div class=row>
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<ul class="list-inline text-center footer-links">
+<li>
+<a href=mailto:pedrovhb@gmail.com title="Email me">
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+<li>
+<a href=https://github.com/pedrovhb title=GitHub>
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+<li>
+<a href=https://linkedin.com/in/pedrovhb title=LinkedIn>
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+<li>
+<a href=https://stackoverflow.com/users/5686598/pedro-von-hertwig-batista title=StackOverflow>
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+</ul>
+<p class="credits copyright text-muted">
+<a href=/page/about>Pedro Batista</a>
 &nbsp;&bull;&nbsp;&copy;
 2021
 &nbsp;&bull;&nbsp;
-<a href=https://pedrovhb.com/>Pedro's Blog</a></p><p class="credits theme-by text-muted"><a href=https://gohugo.io>Hugo v0.85.0</a> powered &nbsp;&bull;&nbsp; Theme <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> adapted from <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a></p></div></div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js integrity=sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe crossorigin=anonymous></script><script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script><script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script><script src=https://pedrovhb.com/js/main.js></script><script src=https://pedrovhb.com/js/highlight.min.js></script><script>hljs.initHighlightingOnLoad()</script><script>$(document).ready(function(){$("pre.chroma").css("padding","0")})</script><script>renderMathInElement(document.body)</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://pedrovhb.com/js/load-photoswipe.js></script></body></html>
+<a href=https://pedrovhb.com/>Pedro's Blog</a>
+</p>
+<p class="credits theme-by text-muted">
+<a href=https://gohugo.io>Hugo v0.86.0</a> powered &nbsp;&bull;&nbsp; Theme <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> adapted from <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a>
+</p>
+</div>
+</div>
+</div>
+</footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js integrity=sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe crossorigin=anonymous></script>
+<script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script>
+<script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script>
+<script src=https://pedrovhb.com/js/main.js></script>
+<script src=https://pedrovhb.com/js/highlight.min.js></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<script>$(document).ready(function(){$("pre.chroma").css("padding","0")})</script><script>renderMathInElement(document.body)</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://pedrovhb.com/js/load-photoswipe.js></script>
+</body>
+</html>

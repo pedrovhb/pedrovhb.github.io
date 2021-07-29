@@ -1,23 +1,129 @@
-<!doctype html><html lang=en itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>Recursively deleting all protected related objects in Django - Pedro's Blog</title><meta name=description content="When debugging Django applications, it&rsquo;s often useful to delete objects so that you can try the thing you&rsquo;re working on again and recreate them. This isn&rsquo;t always trivial though, because related objects that have on_delete=PROTECT can prevent you from doing so.
-This is a great safeguard when the application is running in production, but not so much when you know what you&rsquo;re doing and just want to test something in your own environment."><meta name=author content="Pedro Batista"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Pedro\u0027s Blog","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pedrovhb.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pedrovhb.com\/posts\/django_recursive_delete_related\/","name":"Recursively deleting all protected related objects in django"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Pedro Batista"},"headline":"Recursively deleting all protected related objects in Django","description":"When debugging Django applications, it\u0026rsquo;s often useful to delete objects so that you can try the thing you\u0026rsquo;re working on again and recreate them. This isn\u0026rsquo;t always trivial though, because related objects that have on_delete=PROTECT can prevent you from doing so.\nThis is a great safeguard when the application is running in production, but not so much when you know what you\u0026rsquo;re doing and just want to test something in your own environment.","inLanguage":"en","wordCount":222,"datePublished":"2021-07-09T10:48:12","dateModified":"2021-07-09T10:48:12","image":"https:\/\/pedrovhb.com\/","keywords":[""],"mainEntityOfPage":"https:\/\/pedrovhb.com\/posts\/django_recursive_delete_related\/","publisher":{"@type":"Organization","name":"https:\/\/pedrovhb.com\/","logo":{"@type":"ImageObject","url":"https:\/\/pedrovhb.com\/","height":60,"width":60}}}</script><meta property="og:title" content="Recursively deleting all protected related objects in Django"><meta property="og:description" content="When debugging Django applications, it&rsquo;s often useful to delete objects so that you can try the thing you&rsquo;re working on again and recreate them. This isn&rsquo;t always trivial though, because related objects that have on_delete=PROTECT can prevent you from doing so.
-This is a great safeguard when the application is running in production, but not so much when you know what you&rsquo;re doing and just want to test something in your own environment."><meta property="og:url" content="https://pedrovhb.com/posts/django_recursive_delete_related/"><meta property="og:type" content="website"><meta property="og:site_name" content="Pedro's Blog"><meta name=twitter:title content="Recursively deleting all protected related objects in Django"><meta name=twitter:description content="When debugging Django applications, it&rsquo;s often useful to delete objects so that you can try the thing you&rsquo;re working on again and recreate them. This isn&rsquo;t always trivial though, …"><meta name=twitter:card content="summary"><link href=https://pedrovhb.com/img/favicon.ico rel=icon type=image/x-icon><meta name=generator content="Hugo 0.85.0"><link rel=alternate href=https://pedrovhb.com/index.xml type=application/rss+xml title="Pedro's Blog"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://pedrovhb.com/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://pedrovhb.com/css/highlight.min.css><link rel=stylesheet href=https://pedrovhb.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<!doctype html><html lang=en itemscope itemtype=http://schema.org/WebPage>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Recursively deleting all protected related objects in Django - Pedro's Blog</title>
+<meta name=description content="When debugging Django applications, it&rsquo;s often useful to delete objects so that you can try the thing you&rsquo;re working on again and recreate them. This isn&rsquo;t always trivial though, because related objects that have on_delete=PROTECT can prevent you from doing so.
+This is a great safeguard when the application is running in production, but not so much when you know what you&rsquo;re doing and just want to test something in your own environment.">
+<meta name=author content="Pedro Batista"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Pedro\u0027s Blog","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/pedrovhb.com\/"}</script>
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pedrovhb.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pedrovhb.com\/posts\/django_recursive_delete_related\/","name":"Recursively deleting all protected related objects in django"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Pedro Batista"},"headline":"Recursively deleting all protected related objects in Django","description":"When debugging Django applications, it\u0026rsquo;s often useful to delete objects so that you can try the thing you\u0026rsquo;re working on again and recreate them. This isn\u0026rsquo;t always trivial though, because related objects that have on_delete=PROTECT can prevent you from doing so.\nThis is a great safeguard when the application is running in production, but not so much when you know what you\u0026rsquo;re doing and just want to test something in your own environment.","inLanguage":"en","wordCount":222,"datePublished":"2021-07-09T10:48:12","dateModified":"2021-07-09T10:48:12","image":"https:\/\/pedrovhb.com\/","keywords":[""],"mainEntityOfPage":"https:\/\/pedrovhb.com\/posts\/django_recursive_delete_related\/","publisher":{"@type":"Organization","name":"https:\/\/pedrovhb.com\/","logo":{"@type":"ImageObject","url":"https:\/\/pedrovhb.com\/","height":60,"width":60}}}</script>
+<meta property="og:title" content="Recursively deleting all protected related objects in Django">
+<meta property="og:description" content="When debugging Django applications, it&rsquo;s often useful to delete objects so that you can try the thing you&rsquo;re working on again and recreate them. This isn&rsquo;t always trivial though, because related objects that have on_delete=PROTECT can prevent you from doing so.
+This is a great safeguard when the application is running in production, but not so much when you know what you&rsquo;re doing and just want to test something in your own environment.">
+<meta property="og:url" content="https://pedrovhb.com/posts/django_recursive_delete_related/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pedro's Blog">
+<meta name=twitter:title content="Recursively deleting all protected related objects in Django">
+<meta name=twitter:description content="When debugging Django applications, it&rsquo;s often useful to delete objects so that you can try the thing you&rsquo;re working on again and recreate them. This isn&rsquo;t always trivial though, …">
+<meta name=twitter:card content="summary">
+<link href=https://pedrovhb.com/img/favicon.ico rel=icon type=image/x-icon>
+<meta name=generator content="Hugo 0.86.0">
+<link rel=alternate href=https://pedrovhb.com/index.xml type=application/rss+xml title="Pedro's Blog"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous>
+<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous>
+<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://pedrovhb.com/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
+<link rel=stylesheet href=https://pedrovhb.com/css/highlight.min.css><link rel=stylesheet href=https://pedrovhb.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+<div class=container-fluid>
+<div class=navbar-header>
+<button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
 <span class=sr-only>Toggle navigation</span>
-<span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button>
-<a class=navbar-brand href=https://pedrovhb.com/>Pedro's Blog</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"><li><a title=Blog href=/>Blog</a></li><li><a title=About href=/page/about/>About</a></li></ul></div></div></nav><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=https://pedrovhb.com/>Pedro's Blog</a>
+</div>
+<div class="collapse navbar-collapse" id=main-navbar>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a title=Blog href=/>Blog</a>
+</li>
+<li>
+<a title=About href=/page/about/>About</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<div class=pswp tabindex=-1 role=dialog aria-hidden=true>
+<div class=pswp__bg></div>
+<div class=pswp__scroll-wrap>
+<div class=pswp__container>
+<div class=pswp__item></div>
+<div class=pswp__item></div>
+<div class=pswp__item></div>
+</div>
+<div class="pswp__ui pswp__ui--hidden">
+<div class=pswp__top-bar>
+<div class=pswp__counter></div>
+<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 <button class="pswp__button pswp__button--share" title=Share></button>
 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><header class=header-section><div class="intro-header no-img"><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=posts-heading><h1>Recursively deleting all protected related objects in Django</h1><hr class=small></div></div></div></div></div></header><div class=container role=main><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><article role=main class=blog-post><p>When debugging Django applications, it&rsquo;s often useful to delete objects so that
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+<div class=pswp__preloader>
+<div class=pswp__preloader__icn>
+<div class=pswp__preloader__cut>
+<div class=pswp__preloader__donut></div>
+</div>
+</div>
+</div>
+</div>
+<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+<div class=pswp__share-tooltip></div>
+</div>
+<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+</button>
+<div class=pswp__caption>
+<div class=pswp__caption__center></div>
+</div>
+</div>
+</div>
+</div>
+<header class=header-section>
+<div class="intro-header no-img">
+<div class=container>
+<div class=row>
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class=posts-heading>
+<h1>Recursively deleting all protected related objects in Django</h1>
+<hr class=small>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class=container role=main>
+<div class=row>
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<article role=main class=blog-post>
+<p>When debugging Django applications, it&rsquo;s often useful to delete objects so that
 you can try the thing you&rsquo;re working on again and recreate them. This isn&rsquo;t
 always trivial though, because related objects that have <code>on_delete=PROTECT</code> can
-prevent you from doing so.</p><p>This is a great safeguard when the application is running in production, but not
+prevent you from doing so.</p>
+<p>This is a great safeguard when the application is running in production, but not
 so much when you know what you&rsquo;re doing and just want to test something in your
-own environment.</p><p>I was surprised to find that there were no StackOverflow answers or gists for a
+own environment.</p>
+<p>I was surprised to find that there were no StackOverflow answers or gists for a
 quick way to just let me do that, so
-I <a href=https://stackoverflow.com/a/68317854/5686598>provided my own</a>. Here it is:</p><script type=application/javascript src=https://gist.github.com/pedrovhb/18dc8b7df90d2310c354af98c3e33e23.js></script><p>I need to reinforce this - <strong>this isn&rsquo;t a good thing to use in production</strong>.
+I <a href=https://stackoverflow.com/a/68317854/5686598>provided my own</a>. Here it is:</p>
+<script type=application/javascript src=https://gist.github.com/pedrovhb/18dc8b7df90d2310c354af98c3e33e23.js></script>
+<p>I need to reinforce this - <strong>this isn&rsquo;t a good thing to use in production</strong>.
 Relationships aren&rsquo;t always obvious and if something is protected, it&rsquo;s probably
 for a reason. I&rsquo;d only use this to help with debugging in one-off scripts (or on
-the shell) with test databases that I don&rsquo;t mind wiping.</p><details><summary><i>in case the gist is down, click this text to see the snippet</i></summary><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>recursive_delete</span>(to_del):
+the shell) with test databases that I don&rsquo;t mind wiping.</p>
+<details>
+<summary>
+<i>in case the gist is down, click this text to see the snippet</i>
+</summary>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>recursive_delete</span>(to_del):
     <span style=color:#e6db74>&#34;&#34;&#34;Recursively delete an object, all of its protected related
 </span><span style=color:#e6db74>    instances, those instances&#39; protected instances, and so on.
 </span><span style=color:#e6db74>    &#34;&#34;&#34;</span>
@@ -32,12 +138,78 @@ the shell) with test databases that I don&rsquo;t mind wiping.</p><details><summ
         <span style=color:#66d9ef>except</span> ProtectedError <span style=color:#66d9ef>as</span> e:
             <span style=color:#66d9ef>for</span> protected_ob <span style=color:#f92672>in</span> e<span style=color:#f92672>.</span>protected_objects:
                 recursive_delete(protected_ob)
-</code></pre></div></details></article><ul class="pager blog-pager"><li class=previous><a href=https://pedrovhb.com/posts/fast_reshaping_with_iterators/ data-toggle=tooltip data-placement=top title="Fast reshaping with iterators">&larr; Previous Post</a></li></ul></div></div></div><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"><li><a href=mailto:pedrovhb@gmail.com title="Email me"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
-<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://github.com/pedrovhb title=GitHub><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://linkedin.com/in/pedrovhb title=LinkedIn><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://stackoverflow.com/users/5686598/pedro-von-hertwig-batista title=StackOverflow><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="credits copyright text-muted"><a href=/page/about>Pedro Batista</a>
+</code></pre></div></details>
+</article>
+<ul class="pager blog-pager">
+<li class=previous>
+<a href=https://pedrovhb.com/posts/fast_reshaping_with_iterators/ data-toggle=tooltip data-placement=top title="Fast reshaping with iterators">&larr; Previous Post</a>
+</li>
+<li class=next>
+<a href=https://pedrovhb.com/posts/jetbrains_live_snippets/ data-toggle=tooltip data-placement=top title="Live snippets for JetBrains IDEs">Next Post &rarr;</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<footer>
+<div class=container>
+<div class=row>
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<ul class="list-inline text-center footer-links">
+<li>
+<a href=mailto:pedrovhb@gmail.com title="Email me">
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+<li>
+<a href=https://github.com/pedrovhb title=GitHub>
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+<li>
+<a href=https://linkedin.com/in/pedrovhb title=LinkedIn>
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+<li>
+<a href=https://stackoverflow.com/users/5686598/pedro-von-hertwig-batista title=StackOverflow>
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+</ul>
+<p class="credits copyright text-muted">
+<a href=/page/about>Pedro Batista</a>
 &nbsp;&bull;&nbsp;&copy;
 2021
 &nbsp;&bull;&nbsp;
-<a href=https://pedrovhb.com/>Pedro's Blog</a></p><p class="credits theme-by text-muted"><a href=https://gohugo.io>Hugo v0.85.0</a> powered &nbsp;&bull;&nbsp; Theme <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> adapted from <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a></p></div></div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js integrity=sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe crossorigin=anonymous></script><script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script><script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script><script src=https://pedrovhb.com/js/main.js></script><script src=https://pedrovhb.com/js/highlight.min.js></script><script>hljs.initHighlightingOnLoad()</script><script>$(document).ready(function(){$("pre.chroma").css("padding","0")})</script><script>renderMathInElement(document.body)</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://pedrovhb.com/js/load-photoswipe.js></script></body></html>
+<a href=https://pedrovhb.com/>Pedro's Blog</a>
+</p>
+<p class="credits theme-by text-muted">
+<a href=https://gohugo.io>Hugo v0.86.0</a> powered &nbsp;&bull;&nbsp; Theme <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> adapted from <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a>
+</p>
+</div>
+</div>
+</div>
+</footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js integrity=sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe crossorigin=anonymous></script>
+<script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script>
+<script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script>
+<script src=https://pedrovhb.com/js/main.js></script>
+<script src=https://pedrovhb.com/js/highlight.min.js></script>
+<script>hljs.initHighlightingOnLoad()</script>
+<script>$(document).ready(function(){$("pre.chroma").css("padding","0")})</script><script>renderMathInElement(document.body)</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://pedrovhb.com/js/load-photoswipe.js></script>
+</body>
+</html>

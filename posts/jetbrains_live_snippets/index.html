@@ -3,14 +3,19 @@
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Overview of all pages with the tag #Tags - Pedro's Blog</title>
-<meta name=description content="Overview of all pages with the tag #Tags, such as: %!s(<nil>)">
+<title>Live snippets for JetBrains IDEs - Pedro's Blog</title>
+<meta name=description content="I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It&rsquo;s not just copy-pasting a set of templates; they can do things like position the caret automatically at relevant points in the snippet and dynamically insert things like the current file name or line number, or the date and time.
+I&rsquo;ll try to keep this blog post updated as I create more live templates.">
 <meta name=author content="Pedro Batista"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Pedro\u0027s Blog","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/pedrovhb.com\/"}</script>
-<meta property="og:title" content="Tags">
-<meta property="og:url" content="https://pedrovhb.com/tags/">
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pedrovhb.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pedrovhb.com\/posts\/jetbrains_live_snippets\/","name":"Live snippets for jet brains ID es"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Pedro Batista"},"headline":"Live snippets for JetBrains IDEs","description":"I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It\u0026rsquo;s not just copy-pasting a set of templates; they can do things like position the caret automatically at relevant points in the snippet and dynamically insert things like the current file name or line number, or the date and time.\nI\u0026rsquo;ll try to keep this blog post updated as I create more live templates.","inLanguage":"en","wordCount":353,"datePublished":"2021-07-27T13:04:33","dateModified":"2021-07-27T13:04:33","image":"https:\/\/pedrovhb.com\/","keywords":[""],"mainEntityOfPage":"https:\/\/pedrovhb.com\/posts\/jetbrains_live_snippets\/","publisher":{"@type":"Organization","name":"https:\/\/pedrovhb.com\/","logo":{"@type":"ImageObject","url":"https:\/\/pedrovhb.com\/","height":60,"width":60}}}</script>
+<meta property="og:title" content="Live snippets for JetBrains IDEs">
+<meta property="og:description" content="I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It&rsquo;s not just copy-pasting a set of templates; they can do things like position the caret automatically at relevant points in the snippet and dynamically insert things like the current file name or line number, or the date and time.
+I&rsquo;ll try to keep this blog post updated as I create more live templates.">
+<meta property="og:url" content="https://pedrovhb.com/posts/jetbrains_live_snippets/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pedro's Blog">
-<meta name=twitter:title content="Tags">
+<meta name=twitter:title content="Live snippets for JetBrains IDEs">
+<meta name=twitter:description content="I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It&rsquo;s not just copy-pasting a set of …">
 <meta name=twitter:card content="summary">
 <link href=https://pedrovhb.com/img/favicon.ico rel=icon type=image/x-icon>
 <meta name=generator content="Hugo 0.86.0">
@@ -86,8 +91,8 @@
 <div class=container>
 <div class=row>
 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<div class=tags-heading>
-<h1>Tags</h1>
+<div class=posts-heading>
+<h1>Live snippets for JetBrains IDEs</h1>
 <hr class=small>
 </div>
 </div>
@@ -96,11 +101,54 @@
 </div>
 </header>
 <div class=container role=main>
+<div class=row>
 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<article class=post-preview>
-<div class=panel-group id=accordion>
-</div>
+<article role=main class=blog-post>
+<p>I love JetBrains IDEs. One thing they offer is customizable live snippets. These
+are dynamic code templates which allow you to input common patterns quickly.
+It&rsquo;s not just copy-pasting a set of templates; they can do things like position
+the caret automatically at relevant points in the snippet and dynamically insert
+things like the current file name or line number, or the date and time.</p>
+<p>I&rsquo;ll try to keep this blog post updated as I create more live templates. I wish
+we had a place for sharing these. There&rsquo;s probably lots of useful ways to use
+this that I haven&rsquo;t thought of. Let me know if you have a nice one!</p>
+<h4 id=timestamped-todos>Timestamped todos</h4>
+<p>I write lots of temporary comments as I&rsquo;m debugging, and I mark them with <code>todo</code>
+so they stand out. It&rsquo;s often helpful to know if a note I made is from before or
+after some change, so I have a live snippet that adds a todo with the time it
+was added.</p>
+<p><img src=/img/2021/live_snippets/timestamped_todo.gif alt="Automatically timestamped todo comment"></p>
+<h4 id=silk-profiling>Silk profiling</h4>
+<p>This one also demonstrates how live templates can be helpful by interacting with
+selections. <strong>Protip</strong>: if there isn&rsquo;t an active selection, invoking a surround
+live template automatically selects the line at the caret minus leading
+whitespace, which is often what you want.</p>
+<p>Silk is a profiler for Django. You can decorate functions to be profiled or use
+a context manager to profile code blocks. I made a live template for these:</p>
+<p><img src=/img/2021/live_snippets/silk_dec.gif alt="Silk decorator"></p>
+<p><img src=/img/2021/live_snippets/silk_ctx_manager.gif alt="Silk context manager"></p>
+<h4 id=js---quick-console-log>JS - quick console log</h4>
+<p>This one does a <code>console.log</code> with the current file name and line. Unfortunately
+these aren&rsquo;t automagically updated when things move around :)</p>
+<p><img src=/img/2021/live_snippets/js_console_log.gif alt="Console log"></p>
+<h4 id=python---unpack-and-print-one-item-per-line>Python - unpack and print one item per line</h4>
+<p>When printing a Python list (or, more generally, a collection), items are
+displayed all in the same line. Most times, I want to see each item in its own
+line instead of squinting to look for a comma in a huge list that&rsquo;s been wrapped
+a few times in the console.</p>
+<p><img src=/img/2021/live_snippets/print_one_per_line.gif alt="Print one per line"></p>
+<h4 id=using-these-ones>Using these ones</h4>
+<p>You can get these <a href=/misc/2021/my_live_templates.zip>here</a>. To add them to your
+IDE, follow
+<a href=https://www.jetbrains.com/help/pycharm/sharing-live-templates.html>these instructions</a>
+. Please do share any interesting ways you use live templates!</p>
 </article>
+<ul class="pager blog-pager">
+<li class=previous>
+<a href=https://pedrovhb.com/posts/django_recursive_delete_related/ data-toggle=tooltip data-placement=top title="Recursively deleting all protected related objects in Django">&larr; Previous Post</a>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <footer>

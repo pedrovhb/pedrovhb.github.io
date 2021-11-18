@@ -67,6 +67,7 @@ I then had to sign the apk files so my phone would install them, which I did wit
 ```
 apksigner sign --ks ../debug.keystore config.xhdpi.apk_aligned.apk
 apksigner sign --ks ../debug.keystore config.arm64_v8a.apk_al.apk
+...
 ```
 
 And finally, since this was an apk bundle, I had to use `adb install-multiple` to install the apk files which I eyeballed to be relevant to me:

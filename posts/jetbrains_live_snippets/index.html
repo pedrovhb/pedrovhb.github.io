@@ -1,219 +1,48 @@
-<!doctype html><html lang=en itemscope itemtype=http://schema.org/WebPage>
-<head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Live snippets for JetBrains IDEs - Pedro's Blog</title>
-<meta name=description content="I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It&rsquo;s not just copy-pasting a set of templates; they can do things like position the caret automatically at relevant points in the snippet and dynamically insert things like the current file name or line number, or the date and time.
-I&rsquo;ll try to keep this blog post updated as I create more live templates.">
-<meta name=author content="Pedro Batista"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Pedro\u0027s Blog","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/pedrovhb.com\/"}</script>
-<script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pedrovhb.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pedrovhb.com\/posts\/jetbrains_live_snippets\/","name":"Live snippets for jet brains ID es"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Pedro Batista"},"headline":"Live snippets for JetBrains IDEs","description":"I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It\u0026rsquo;s not just copy-pasting a set of templates; they can do things like position the caret automatically at relevant points in the snippet and dynamically insert things like the current file name or line number, or the date and time.\nI\u0026rsquo;ll try to keep this blog post updated as I create more live templates.","inLanguage":"en","wordCount":353,"datePublished":"2021-07-27T13:04:33","dateModified":"2021-07-27T13:04:33","image":"https:\/\/pedrovhb.com\/","keywords":[""],"mainEntityOfPage":"https:\/\/pedrovhb.com\/posts\/jetbrains_live_snippets\/","publisher":{"@type":"Organization","name":"https:\/\/pedrovhb.com\/","logo":{"@type":"ImageObject","url":"https:\/\/pedrovhb.com\/","height":60,"width":60}}}</script>
-<meta property="og:title" content="Live snippets for JetBrains IDEs">
-<meta property="og:description" content="I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It&rsquo;s not just copy-pasting a set of templates; they can do things like position the caret automatically at relevant points in the snippet and dynamically insert things like the current file name or line number, or the date and time.
-I&rsquo;ll try to keep this blog post updated as I create more live templates.">
-<meta property="og:url" content="https://pedrovhb.com/posts/jetbrains_live_snippets/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Pedro's Blog">
-<meta name=twitter:title content="Live snippets for JetBrains IDEs">
-<meta name=twitter:description content="I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It&rsquo;s not just copy-pasting a set of …">
-<meta name=twitter:card content="summary">
-<link href=https://pedrovhb.com/img/favicon.ico rel=icon type=image/x-icon>
-<meta name=generator content="Hugo 0.89.4">
-<link rel=alternate href=https://pedrovhb.com/index.xml type=application/rss+xml title="Pedro's Blog"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous>
-<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous>
-<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://pedrovhb.com/css/main.css>
-<script async defer data-website-id=b4adb5d5-7d6f-4f1a-951f-f8dc187469d6 src=https://do.pedrovhb.com/umami.js></script><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
-<link rel=stylesheet href=https://pedrovhb.com/css/highlight.min.css><link rel=stylesheet href=https://pedrovhb.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous>
-<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous>
-</head>
-<body>
-<nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-<div class=container-fluid>
-<div class=navbar-header>
-<button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<!doctype html><html lang=en itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>Live snippets for JetBrains IDEs - Pedro's Blog</title><meta name=description content="I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It&rsquo;s not just copy-pasting a set of templates; they can do things like position the caret automatically at relevant points in the snippet and dynamically insert things like the current file name or line number, or the date and time.
+I&rsquo;ll try to keep this blog post updated as I create more live templates."><meta name=author content="Pedro Batista"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Pedro\u0027s Blog","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pedrovhb.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pedrovhb.com\/posts\/jetbrains_live_snippets\/","name":"Live snippets for jet brains ID es"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Pedro Batista"},"headline":"Live snippets for JetBrains IDEs","description":"I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It\u0026rsquo;s not just copy-pasting a set of templates; they can do things like position the caret automatically at relevant points in the snippet and dynamically insert things like the current file name or line number, or the date and time.\nI\u0026rsquo;ll try to keep this blog post updated as I create more live templates.","inLanguage":"en","wordCount":353,"datePublished":"2021-07-27T13:04:33","dateModified":"2021-07-27T13:04:33","image":"https:\/\/pedrovhb.com\/","keywords":[""],"mainEntityOfPage":"https:\/\/pedrovhb.com\/posts\/jetbrains_live_snippets\/","publisher":{"@type":"Organization","name":"https:\/\/pedrovhb.com\/","logo":{"@type":"ImageObject","url":"https:\/\/pedrovhb.com\/","height":60,"width":60}}}</script><meta property="og:title" content="Live snippets for JetBrains IDEs"><meta property="og:description" content="I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It&rsquo;s not just copy-pasting a set of templates; they can do things like position the caret automatically at relevant points in the snippet and dynamically insert things like the current file name or line number, or the date and time.
+I&rsquo;ll try to keep this blog post updated as I create more live templates."><meta property="og:url" content="https://pedrovhb.com/posts/jetbrains_live_snippets/"><meta property="og:type" content="website"><meta property="og:site_name" content="Pedro's Blog"><meta name=twitter:title content="Live snippets for JetBrains IDEs"><meta name=twitter:description content="I love JetBrains IDEs. One thing they offer is customizable live snippets. These are dynamic code templates which allow you to input common patterns quickly. It&rsquo;s not just copy-pasting a set of …"><meta name=twitter:card content="summary"><link href=https://pedrovhb.com/img/favicon.ico rel=icon type=image/x-icon><meta name=generator content="Hugo 0.104.0"><link rel=alternate href=https://pedrovhb.com/index.xml type=application/rss+xml title="Pedro's Blog"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://pedrovhb.com/css/main.css><script async defer data-website-id=b4adb5d5-7d6f-4f1a-951f-f8dc187469d6 src=https://do.pedrovhb.com/umami.js></script><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://pedrovhb.com/css/highlight.min.css><link rel=stylesheet href=https://pedrovhb.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
 <span class=sr-only>Toggle navigation</span>
 <span class=icon-bar></span>
 <span class=icon-bar></span>
-<span class=icon-bar></span>
-</button>
-<a class=navbar-brand href=https://pedrovhb.com/>Pedro's Blog</a>
-</div>
-<div class="collapse navbar-collapse" id=main-navbar>
-<ul class="nav navbar-nav navbar-right">
-<li>
-<a title=Blog href=/>Blog</a>
-</li>
-<li>
-<a title=About href=/page/about/>About</a>
-</li>
-</ul>
-</div>
-</div>
-</nav>
-<div class=pswp tabindex=-1 role=dialog aria-hidden=true>
-<div class=pswp__bg></div>
-<div class=pswp__scroll-wrap>
-<div class=pswp__container>
-<div class=pswp__item></div>
-<div class=pswp__item></div>
-<div class=pswp__item></div>
-</div>
-<div class="pswp__ui pswp__ui--hidden">
-<div class=pswp__top-bar>
-<div class=pswp__counter></div>
-<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=https://pedrovhb.com/>Pedro's Blog</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"><li><a title=Blog href=/>Blog</a></li><li><a title=About href=/page/about/>About</a></li></ul></div></div></nav><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 <button class="pswp__button pswp__button--share" title=Share></button>
 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-<div class=pswp__preloader>
-<div class=pswp__preloader__icn>
-<div class=pswp__preloader__cut>
-<div class=pswp__preloader__donut></div>
-</div>
-</div>
-</div>
-</div>
-<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-<div class=pswp__share-tooltip></div>
-</div>
-<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-</button>
-<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-</button>
-<div class=pswp__caption>
-<div class=pswp__caption__center></div>
-</div>
-</div>
-</div>
-</div>
-<header class=header-section>
-<div class="intro-header no-img">
-<div class=container>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<div class=posts-heading>
-<h1>Live snippets for JetBrains IDEs</h1>
-<hr class=small>
-</div>
-</div>
-</div>
-</div>
-</div>
-</header>
-<div class=container role=main>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<article role=main class=blog-post>
-<p>I love JetBrains IDEs. One thing they offer is customizable live snippets. These
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><header class=header-section><div class="intro-header no-img"><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=posts-heading><h1>Live snippets for JetBrains IDEs</h1><hr class=small></div></div></div></div></div></header><div class=container role=main><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><article role=main class=blog-post><p>I love JetBrains IDEs. One thing they offer is customizable live snippets. These
 are dynamic code templates which allow you to input common patterns quickly.
 It&rsquo;s not just copy-pasting a set of templates; they can do things like position
 the caret automatically at relevant points in the snippet and dynamically insert
-things like the current file name or line number, or the date and time.</p>
-<p>I&rsquo;ll try to keep this blog post updated as I create more live templates. I wish
+things like the current file name or line number, or the date and time.</p><p>I&rsquo;ll try to keep this blog post updated as I create more live templates. I wish
 we had a place for sharing these. There&rsquo;s probably lots of useful ways to use
-this that I haven&rsquo;t thought of. Let me know if you have a nice one!</p>
-<h4 id=timestamped-todos>Timestamped todos</h4>
-<p>I write lots of temporary comments as I&rsquo;m debugging, and I mark them with <code>todo</code>
+this that I haven&rsquo;t thought of. Let me know if you have a nice one!</p><h4 id=timestamped-todos>Timestamped todos</h4><p>I write lots of temporary comments as I&rsquo;m debugging, and I mark them with <code>todo</code>
 so they stand out. It&rsquo;s often helpful to know if a note I made is from before or
 after some change, so I have a live snippet that adds a todo with the time it
-was added.</p>
-<p><img src=/img/2021/live_snippets/timestamped_todo.gif alt="Automatically timestamped todo comment"></p>
-<h4 id=silk-profiling>Silk profiling</h4>
-<p>This one also demonstrates how live templates can be helpful by interacting with
+was added.</p><p><img src=/img/2021/live_snippets/timestamped_todo.gif alt="Automatically timestamped todo comment"></p><h4 id=silk-profiling>Silk profiling</h4><p>This one also demonstrates how live templates can be helpful by interacting with
 selections. <strong>Protip</strong>: if there isn&rsquo;t an active selection, invoking a surround
 live template automatically selects the line at the caret minus leading
-whitespace, which is often what you want.</p>
-<p>Silk is a profiler for Django. You can decorate functions to be profiled or use
-a context manager to profile code blocks. I made a live template for these:</p>
-<p><img src=/img/2021/live_snippets/silk_dec.gif alt="Silk decorator"></p>
-<p><img src=/img/2021/live_snippets/silk_ctx_manager.gif alt="Silk context manager"></p>
-<h4 id=js---quick-console-log>JS - quick console log</h4>
-<p>This one does a <code>console.log</code> with the current file name and line. Unfortunately
-these aren&rsquo;t automagically updated when things move around :)</p>
-<p><img src=/img/2021/live_snippets/js_console_log.gif alt="Console log"></p>
-<h4 id=python---unpack-and-print-one-item-per-line>Python - unpack and print one item per line</h4>
-<p>When printing a Python list (or, more generally, a collection), items are
+whitespace, which is often what you want.</p><p>Silk is a profiler for Django. You can decorate functions to be profiled or use
+a context manager to profile code blocks. I made a live template for these:</p><p><img src=/img/2021/live_snippets/silk_dec.gif alt="Silk decorator"></p><p><img src=/img/2021/live_snippets/silk_ctx_manager.gif alt="Silk context manager"></p><h4 id=js---quick-console-log>JS - quick console log</h4><p>This one does a <code>console.log</code> with the current file name and line. Unfortunately
+these aren&rsquo;t automagically updated when things move around :)</p><p><img src=/img/2021/live_snippets/js_console_log.gif alt="Console log"></p><h4 id=python---unpack-and-print-one-item-per-line>Python - unpack and print one item per line</h4><p>When printing a Python list (or, more generally, a collection), items are
 displayed all in the same line. Most times, I want to see each item in its own
 line instead of squinting to look for a comma in a huge list that&rsquo;s been wrapped
-a few times in the console.</p>
-<p><img src=/img/2021/live_snippets/print_one_per_line.gif alt="Print one per line"></p>
-<h4 id=using-these-ones>Using these ones</h4>
-<p>You can get these <a href=/misc/2021/my_live_templates.zip>here</a>. To add them to your
+a few times in the console.</p><p><img src=/img/2021/live_snippets/print_one_per_line.gif alt="Print one per line"></p><h4 id=using-these-ones>Using these ones</h4><p>You can get these <a href=/misc/2021/my_live_templates.zip>here</a>. To add them to your
 IDE, follow
 <a href=https://www.jetbrains.com/help/pycharm/sharing-live-templates.html>these instructions</a>
-. Please do share any interesting ways you use live templates!</p>
-</article>
-<ul class="pager blog-pager">
-<li class=previous>
-<a href=https://pedrovhb.com/posts/django_recursive_delete_related/ data-toggle=tooltip data-placement=top title="Recursively deleting all protected related objects in Django">&larr; Previous Post</a>
-</li>
-<li class=next>
-<a href=https://pedrovhb.com/posts/fix_it_yourself/ data-toggle=tooltip data-placement=top title="Sometimes you gotta fix it yourself">Next Post &rarr;</a>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<footer>
-<div class=container>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<ul class="list-inline text-center footer-links">
-<li>
-<a href=mailto:pedrovhb@gmail.com title="Email me" class=umami--click--email>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-<li>
-<a href=https://github.com/pedrovhb title=GitHub class=umami--click--github>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-github fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-<li>
-<a href=https://linkedin.com/in/pedrovhb title=LinkedIn class=umami--click--linkedin>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-<li>
-<a href=https://stackoverflow.com/users/5686598/pedro-von-hertwig-batista title=StackOverflow class=umami--click--stackoverflow>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-</ul>
-<p class="credits copyright text-muted">
-<a href=/page/about>Pedro Batista</a>
+. Please do share any interesting ways you use live templates!</p></article><ul class="pager blog-pager"><li class=previous><a href=https://pedrovhb.com/posts/django_recursive_delete_related/ data-toggle=tooltip data-placement=top title="Recursively deleting all protected related objects in Django">&larr; Previous Post</a></li><li class=next><a href=https://pedrovhb.com/posts/fix_it_yourself/ data-toggle=tooltip data-placement=top title="Sometimes you gotta fix it yourself">Next Post &rarr;</a></li></ul></div></div></div><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"><li><a href=mailto:pedrovhb@gmail.com title="Email me" class=umami--click--email><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://github.com/pedrovhb title=GitHub class=umami--click--github><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://linkedin.com/in/pedrovhb title=LinkedIn class=umami--click--linkedin><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://stackoverflow.com/users/5686598/pedro-von-hertwig-batista title=StackOverflow class=umami--click--stackoverflow><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="credits copyright text-muted"><a href=/page/about>Pedro Batista</a>
 &nbsp;&bull;&nbsp;&copy;
-2021
+2022
 &nbsp;&bull;&nbsp;
-<a href=https://pedrovhb.com/>Pedro's Blog</a>
-</p>
-<p class="credits theme-by text-muted">
-<a href=https://gohugo.io>Hugo v0.89.4</a> powered &nbsp;&bull;&nbsp; Theme <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> adapted from <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a>
-</p>
-</div>
-</div>
-</div>
-</footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script>
+<a href=https://pedrovhb.com/>Pedro's Blog</a></p><p class="credits theme-by text-muted"><a href=https://gohugo.io>Hugo v0.104.0</a> powered &nbsp;&bull;&nbsp; Theme <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> adapted from <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a></p></div></div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script>
 <script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js integrity=sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe crossorigin=anonymous></script>
 <script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script>
 <script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script>
 <script src=https://pedrovhb.com/js/main.js></script>
 <script src=https://pedrovhb.com/js/highlight.min.js></script>
-<script>hljs.initHighlightingOnLoad()</script>
-<script>$(document).ready(function(){$("pre.chroma").css("padding","0")})</script><script>renderMathInElement(document.body)</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script>
-<script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://pedrovhb.com/js/load-photoswipe.js></script>
-</body>
-</html>
+<script>hljs.initHighlightingOnLoad()</script><script>$(document).ready(function(){$("pre.chroma").css("padding","0")})</script><script>renderMathInElement(document.body)</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://pedrovhb.com/js/load-photoswipe.js></script></body></html>

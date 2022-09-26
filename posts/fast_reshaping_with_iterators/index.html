@@ -1,252 +1,73 @@
-<!doctype html><html lang=en itemscope itemtype=http://schema.org/WebPage>
-<head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Fast reshaping with iterators - Pedro's Blog</title>
-<meta name=description content="Lately I&rsquo;ve been reading up a bit more on functional programming. I feel that after years of knowing about the existence of the paradigm and even trying to dip my toes in a couple of times without success, now it finally &ldquo;clicked&rdquo;.
-I&rsquo;m still playing around with concepts and languages, and trying to look at some programming exercises in a more functional light. It was surprising to me, though, how easily and efficiently I was able to solve today&rsquo;s LeetCode challenge .">
-<meta name=author content="Pedro Batista"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Pedro\u0027s Blog","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/pedrovhb.com\/"}</script>
-<script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pedrovhb.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pedrovhb.com\/posts\/fast_reshaping_with_iterators\/","name":"Fast reshaping with iterators"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Pedro Batista"},"headline":"Fast reshaping with iterators","description":"Lately I\u0026rsquo;ve been reading up a bit more on functional programming. I feel that after years of knowing about the existence of the paradigm and even trying to dip my toes in a couple of times without success, now it finally \u0026ldquo;clicked\u0026rdquo;.\nI\u0026rsquo;m still playing around with concepts and languages, and trying to look at some programming exercises in a more functional light. It was surprising to me, though, how easily and efficiently I was able to solve today\u0026rsquo;s LeetCode challenge .","inLanguage":"en","wordCount":597,"datePublished":"2021-07-05T15:04:32","dateModified":"2021-07-05T15:04:32","image":"https:\/\/pedrovhb.com\/","keywords":[""],"mainEntityOfPage":"https:\/\/pedrovhb.com\/posts\/fast_reshaping_with_iterators\/","publisher":{"@type":"Organization","name":"https:\/\/pedrovhb.com\/","logo":{"@type":"ImageObject","url":"https:\/\/pedrovhb.com\/","height":60,"width":60}}}</script>
-<meta property="og:title" content="Fast reshaping with iterators">
-<meta property="og:description" content="Lately I&rsquo;ve been reading up a bit more on functional programming. I feel that after years of knowing about the existence of the paradigm and even trying to dip my toes in a couple of times without success, now it finally &ldquo;clicked&rdquo;.
-I&rsquo;m still playing around with concepts and languages, and trying to look at some programming exercises in a more functional light. It was surprising to me, though, how easily and efficiently I was able to solve today&rsquo;s LeetCode challenge .">
-<meta property="og:url" content="https://pedrovhb.com/posts/fast_reshaping_with_iterators/">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Pedro's Blog">
-<meta name=twitter:title content="Fast reshaping with iterators">
-<meta name=twitter:description content="Lately I&rsquo;ve been reading up a bit more on functional programming. I feel that after years of knowing about the existence of the paradigm and even trying to dip my toes in a couple of times …">
-<meta name=twitter:card content="summary">
-<link href=https://pedrovhb.com/img/favicon.ico rel=icon type=image/x-icon>
-<meta name=generator content="Hugo 0.89.4">
-<link rel=alternate href=https://pedrovhb.com/index.xml type=application/rss+xml title="Pedro's Blog"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous>
-<link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous>
-<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://pedrovhb.com/css/main.css>
-<script async defer data-website-id=b4adb5d5-7d6f-4f1a-951f-f8dc187469d6 src=https://do.pedrovhb.com/umami.js></script><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
-<link rel=stylesheet href=https://pedrovhb.com/css/highlight.min.css><link rel=stylesheet href=https://pedrovhb.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous>
-<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous>
-</head>
-<body>
-<nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-<div class=container-fluid>
-<div class=navbar-header>
-<button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<!doctype html><html lang=en itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>Fast reshaping with iterators - Pedro's Blog</title><meta name=description content="Lately I&rsquo;ve been reading up a bit more on functional programming. I feel that after years of knowing about the existence of the paradigm and even trying to dip my toes in a couple of times without success, now it finally &ldquo;clicked&rdquo;.
+I&rsquo;m still playing around with concepts and languages, and trying to look at some programming exercises in a more functional light. It was surprising to me, though, how easily and efficiently I was able to solve today&rsquo;s LeetCode challenge ."><meta name=author content="Pedro Batista"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Pedro\u0027s Blog","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pedrovhb.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pedrovhb.com\/posts\/fast_reshaping_with_iterators\/","name":"Fast reshaping with iterators"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Pedro Batista"},"headline":"Fast reshaping with iterators","description":"Lately I\u0026rsquo;ve been reading up a bit more on functional programming. I feel that after years of knowing about the existence of the paradigm and even trying to dip my toes in a couple of times without success, now it finally \u0026ldquo;clicked\u0026rdquo;.\nI\u0026rsquo;m still playing around with concepts and languages, and trying to look at some programming exercises in a more functional light. It was surprising to me, though, how easily and efficiently I was able to solve today\u0026rsquo;s LeetCode challenge .","inLanguage":"en","wordCount":597,"datePublished":"2021-07-05T15:04:32","dateModified":"2021-07-05T15:04:32","image":"https:\/\/pedrovhb.com\/","keywords":[""],"mainEntityOfPage":"https:\/\/pedrovhb.com\/posts\/fast_reshaping_with_iterators\/","publisher":{"@type":"Organization","name":"https:\/\/pedrovhb.com\/","logo":{"@type":"ImageObject","url":"https:\/\/pedrovhb.com\/","height":60,"width":60}}}</script><meta property="og:title" content="Fast reshaping with iterators"><meta property="og:description" content="Lately I&rsquo;ve been reading up a bit more on functional programming. I feel that after years of knowing about the existence of the paradigm and even trying to dip my toes in a couple of times without success, now it finally &ldquo;clicked&rdquo;.
+I&rsquo;m still playing around with concepts and languages, and trying to look at some programming exercises in a more functional light. It was surprising to me, though, how easily and efficiently I was able to solve today&rsquo;s LeetCode challenge ."><meta property="og:url" content="https://pedrovhb.com/posts/fast_reshaping_with_iterators/"><meta property="og:type" content="website"><meta property="og:site_name" content="Pedro's Blog"><meta name=twitter:title content="Fast reshaping with iterators"><meta name=twitter:description content="Lately I&rsquo;ve been reading up a bit more on functional programming. I feel that after years of knowing about the existence of the paradigm and even trying to dip my toes in a couple of times …"><meta name=twitter:card content="summary"><link href=https://pedrovhb.com/img/favicon.ico rel=icon type=image/x-icon><meta name=generator content="Hugo 0.104.0"><link rel=alternate href=https://pedrovhb.com/index.xml type=application/rss+xml title="Pedro's Blog"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://pedrovhb.com/css/main.css><script async defer data-website-id=b4adb5d5-7d6f-4f1a-951f-f8dc187469d6 src=https://do.pedrovhb.com/umami.js></script><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://pedrovhb.com/css/highlight.min.css><link rel=stylesheet href=https://pedrovhb.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
 <span class=sr-only>Toggle navigation</span>
 <span class=icon-bar></span>
 <span class=icon-bar></span>
-<span class=icon-bar></span>
-</button>
-<a class=navbar-brand href=https://pedrovhb.com/>Pedro's Blog</a>
-</div>
-<div class="collapse navbar-collapse" id=main-navbar>
-<ul class="nav navbar-nav navbar-right">
-<li>
-<a title=Blog href=/>Blog</a>
-</li>
-<li>
-<a title=About href=/page/about/>About</a>
-</li>
-</ul>
-</div>
-</div>
-</nav>
-<div class=pswp tabindex=-1 role=dialog aria-hidden=true>
-<div class=pswp__bg></div>
-<div class=pswp__scroll-wrap>
-<div class=pswp__container>
-<div class=pswp__item></div>
-<div class=pswp__item></div>
-<div class=pswp__item></div>
-</div>
-<div class="pswp__ui pswp__ui--hidden">
-<div class=pswp__top-bar>
-<div class=pswp__counter></div>
-<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=https://pedrovhb.com/>Pedro's Blog</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"><li><a title=Blog href=/>Blog</a></li><li><a title=About href=/page/about/>About</a></li></ul></div></div></nav><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 <button class="pswp__button pswp__button--share" title=Share></button>
 <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-<div class=pswp__preloader>
-<div class=pswp__preloader__icn>
-<div class=pswp__preloader__cut>
-<div class=pswp__preloader__donut></div>
-</div>
-</div>
-</div>
-</div>
-<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-<div class=pswp__share-tooltip></div>
-</div>
-<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-</button>
-<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-</button>
-<div class=pswp__caption>
-<div class=pswp__caption__center></div>
-</div>
-</div>
-</div>
-</div>
-<header class=header-section>
-<div class="intro-header no-img">
-<div class=container>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<div class=posts-heading>
-<h1>Fast reshaping with iterators</h1>
-<hr class=small>
-</div>
-</div>
-</div>
-</div>
-</div>
-</header>
-<div class=container role=main>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<article role=main class=blog-post>
-<p>Lately I&rsquo;ve been reading up a bit more on functional programming. I feel that
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><header class=header-section><div class="intro-header no-img"><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=posts-heading><h1>Fast reshaping with iterators</h1><hr class=small></div></div></div></div></div></header><div class=container role=main><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><article role=main class=blog-post><p>Lately I&rsquo;ve been reading up a bit more on functional programming. I feel that
 after years of knowing about the existence of the paradigm and even trying to
-dip my toes in a couple of times without success, now it finally &ldquo;clicked&rdquo;.</p>
-<p>I&rsquo;m still playing around with concepts and languages, and trying to look at some
+dip my toes in a couple of times without success, now it finally &ldquo;clicked&rdquo;.</p><p>I&rsquo;m still playing around with concepts and languages, and trying to look at some
 programming exercises in a more functional light. It was surprising to me,
 though, how easily and efficiently I was able to
 solve <a href=https://leetcode.com/explore/challenge/card/july-leetcoding-challenge-2021/608/week-1-july-1st-july-7th/3803/>today&rsquo;s LeetCode challenge</a>
 . The problem was fairly simple - reshape an MxN matrix (presented as a list of
 lists) into another matrix that is RxC (an arbitrary number of rows and columns)
-while keeping the original matrix elements.</p>
-<p>Here&rsquo;s the solution in its entirety:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>from</span> itertools <span style=color:#f92672>import</span> chain, islice
-<span style=color:#f92672>from</span> typing <span style=color:#f92672>import</span> List
-
-
-<span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span>:
-    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>matrixReshape</span>(self, mat: List[List[int]], r: int, c: int) <span style=color:#f92672>-&gt;</span> List[
-        List[int]]:
-
-        <span style=color:#75715e># If the proposed RxC matrix would have a different </span>
-        <span style=color:#75715e># number of elements, return the matrix itself</span>
-        <span style=color:#66d9ef>if</span> len(mat) <span style=color:#f92672>*</span> len(mat[<span style=color:#ae81ff>0</span>]) <span style=color:#f92672>!=</span> r <span style=color:#f92672>*</span> c:
-            <span style=color:#66d9ef>yield from</span> mat
-        <span style=color:#66d9ef>else</span>:
-            <span style=color:#75715e># Create an iterable over all the values of `mat`</span>
-            it <span style=color:#f92672>=</span> chain<span style=color:#f92672>.</span>from_iterable(mat)
-
-            <span style=color:#75715e># Yield from an iterator of r c-sized iterators   </span>
-            <span style=color:#66d9ef>yield from</span> (islice(it, c) <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(r))
-</code></pre></div><p>Interestingly, LeetCode allows us to return iterators where lists are expected,
-so we don&rsquo;t have to litter everything with <code>list</code> or explicit comprehensions.</p>
-<p>My first thought is that this is a bit terse, and it&rsquo;s certainly less obvious
+while keeping the original matrix elements.</p><p>Here&rsquo;s the solution in its entirety:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>from</span> itertools <span style=color:#f92672>import</span> chain, islice
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> typing <span style=color:#f92672>import</span> List
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Solution</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>matrixReshape</span>(self, mat: List[List[int]], r: int, c: int) <span style=color:#f92672>-&gt;</span> List[
+</span></span><span style=display:flex><span>        List[int]]:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># If the proposed RxC matrix would have a different </span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># number of elements, return the matrix itself</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> len(mat) <span style=color:#f92672>*</span> len(mat[<span style=color:#ae81ff>0</span>]) <span style=color:#f92672>!=</span> r <span style=color:#f92672>*</span> c:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>yield from</span> mat
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>            <span style=color:#75715e># Create an iterable over all the values of `mat`</span>
+</span></span><span style=display:flex><span>            it <span style=color:#f92672>=</span> chain<span style=color:#f92672>.</span>from_iterable(mat)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># Yield from an iterator of r c-sized iterators   </span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>yield from</span> (islice(it, c) <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(r))
+</span></span></code></pre></div><p>Interestingly, LeetCode allows us to return iterators where lists are expected,
+so we don&rsquo;t have to litter everything with <code>list</code> or explicit comprehensions.</p><p>My first thought is that this is a bit terse, and it&rsquo;s certainly less obvious
 than busting out the for-loops. I&rsquo;m not convinced that&rsquo;s necessarily a bad
 thing, though. Of course, overcomplicating things is bad and code should be as
-simple as it can be, but this is essentially a higher-level way of doing things</p>
-<ul>
-<li>instead of writing loops, we think about data streams and dimensions. It&rsquo;s
+simple as it can be, but this is essentially a higher-level way of doing things</p><ul><li>instead of writing loops, we think about data streams and dimensions. It&rsquo;s
 natural that using a different way of thinking requires learning new idioms.
 While this may be alien for someone who isn&rsquo;t familiar with the concepts, it&rsquo;s
 not really intractable. It&rsquo;s quite worth taking the time to understand have it
-in your toolbelt.</li>
-</ul>
-<p>On the other side, we have the hints given by LeetCode on how to solve this.
+in your toolbelt.</li></ul><p>On the other side, we have the hints given by LeetCode on how to solve this.
 They actually made me chuckle thinking about how much more inelegant other
-solutions dealing with indexes must be (spoiler alert):</p>
-<blockquote>
-<p>Do you know how 2d matrix is stored in 1d memory? Try to map 2-dimensions into one.</p>
-</blockquote>
-<blockquote>
-<p>M[i][j]=M[n*i+j] , where n is the number of cols. This is the one way of converting 2-d indices into one 1-d index. Now, how will you convert 1-d index into 2-d indices?</p>
-</blockquote>
-<blockquote>
-<p>Try to use division and modulus to convert 1-d index into 2-d indices.</p>
-</blockquote>
-<blockquote>
-<p>M[i] => M[i/n][n%i] Will it result in right mapping? Take some example and check this formula.</p>
-</blockquote>
-<p>Those all look terrible. We didn&rsquo;t have to deal with a single index in our
-iterator solution!</p>
-<p>What&rsquo;s more, it&rsquo;s <em>fast</em>, beating 98.89% of other submitted Python solutions:</p>
-<p><img src=/img/2021/fast_reshaping/performance_reshape.png alt=Pedro></p>
-<p>I actually thought that it could&rsquo;ve been a bug with how LeetCode analyzes
+solutions dealing with indexes must be (spoiler alert):</p><blockquote><p>Do you know how 2d matrix is stored in 1d memory? Try to map 2-dimensions into one.</p></blockquote><blockquote><p>M[i][j]=M[n*i+j] , where n is the number of cols. This is the one way of converting 2-d indices into one 1-d index. Now, how will you convert 1-d index into 2-d indices?</p></blockquote><blockquote><p>Try to use division and modulus to convert 1-d index into 2-d indices.</p></blockquote><blockquote><p>M[i] => M[i/n][n%i] Will it result in right mapping? Take some example and check this formula.</p></blockquote><p>Those all look terrible. We didn&rsquo;t have to deal with a single index in our
+iterator solution!</p><p>What&rsquo;s more, it&rsquo;s <em>fast</em>, beating 98.89% of other submitted Python solutions:</p><p><img src=/img/2021/fast_reshaping/performance_reshape.png alt=Pedro></p><p>I actually thought that it could&rsquo;ve been a bug with how LeetCode analyzes
 submissions - maybe it&rsquo;d evaluate and measure the function execution time, and
 then check the results. In that case, we&rsquo;d get a wrong assessment of the
 solution because the iterators we used are lazy, i.e. they&rsquo;re only evaluated
 when needed (which would&rsquo;ve been after profiling if the above were correct). But
 it seems that&rsquo;s legit, actually. At the very least, iterators are consumed, as
 the absolute difference to other submissions wasn&rsquo;t as massive as to imply there
-was no iteration whatsoever going on.</p>
-<p>So there we go! An elegant, fast solution to an otherwise hairy problem in (
-effectively) two lines of functional-style Python :)</p>
-</article>
-<ul class="pager blog-pager">
-<li class=previous>
-<a href=https://pedrovhb.com/posts/probabilistic_data_structures/ data-toggle=tooltip data-placement=top title="Probabilistic data structures - bloom filters">&larr; Previous Post</a>
-</li>
-<li class=next>
-<a href=https://pedrovhb.com/posts/django_recursive_delete_related/ data-toggle=tooltip data-placement=top title="Recursively deleting all protected related objects in Django">Next Post &rarr;</a>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<footer>
-<div class=container>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<ul class="list-inline text-center footer-links">
-<li>
-<a href=mailto:pedrovhb@gmail.com title="Email me" class=umami--click--email>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-<li>
-<a href=https://github.com/pedrovhb title=GitHub class=umami--click--github>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-github fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-<li>
-<a href=https://linkedin.com/in/pedrovhb title=LinkedIn class=umami--click--linkedin>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-<li>
-<a href=https://stackoverflow.com/users/5686598/pedro-von-hertwig-batista title=StackOverflow class=umami--click--stackoverflow>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-</ul>
-<p class="credits copyright text-muted">
-<a href=/page/about>Pedro Batista</a>
+was no iteration whatsoever going on.</p><p>So there we go! An elegant, fast solution to an otherwise hairy problem in (
+effectively) two lines of functional-style Python :)</p></article><ul class="pager blog-pager"><li class=previous><a href=https://pedrovhb.com/posts/probabilistic_data_structures/ data-toggle=tooltip data-placement=top title="Probabilistic data structures - bloom filters">&larr; Previous Post</a></li><li class=next><a href=https://pedrovhb.com/posts/django_recursive_delete_related/ data-toggle=tooltip data-placement=top title="Recursively deleting all protected related objects in Django">Next Post &rarr;</a></li></ul></div></div></div><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"><li><a href=mailto:pedrovhb@gmail.com title="Email me" class=umami--click--email><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://github.com/pedrovhb title=GitHub class=umami--click--github><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://linkedin.com/in/pedrovhb title=LinkedIn class=umami--click--linkedin><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://stackoverflow.com/users/5686598/pedro-von-hertwig-batista title=StackOverflow class=umami--click--stackoverflow><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="credits copyright text-muted"><a href=/page/about>Pedro Batista</a>
 &nbsp;&bull;&nbsp;&copy;
-2021
+2022
 &nbsp;&bull;&nbsp;
-<a href=https://pedrovhb.com/>Pedro's Blog</a>
-</p>
-<p class="credits theme-by text-muted">
-<a href=https://gohugo.io>Hugo v0.89.4</a> powered &nbsp;&bull;&nbsp; Theme <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> adapted from <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a>
-</p>
-</div>
-</div>
-</div>
-</footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script>
+<a href=https://pedrovhb.com/>Pedro's Blog</a></p><p class="credits theme-by text-muted"><a href=https://gohugo.io>Hugo v0.104.0</a> powered &nbsp;&bull;&nbsp; Theme <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> adapted from <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a></p></div></div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script>
 <script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js integrity=sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe crossorigin=anonymous></script>
 <script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script>
 <script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script>
 <script src=https://pedrovhb.com/js/main.js></script>
 <script src=https://pedrovhb.com/js/highlight.min.js></script>
-<script>hljs.initHighlightingOnLoad()</script>
-<script>$(document).ready(function(){$("pre.chroma").css("padding","0")})</script><script>renderMathInElement(document.body)</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script>
-<script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://pedrovhb.com/js/load-photoswipe.js></script>
-</body>
-</html>
+<script>hljs.initHighlightingOnLoad()</script><script>$(document).ready(function(){$("pre.chroma").css("padding","0")})</script><script>renderMathInElement(document.body)</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://pedrovhb.com/js/load-photoswipe.js></script></body></html>

@@ -6,10 +6,10 @@ draft: false
 
 I'm writing a little utility library that among other things deals with asynchronously managing subprocesses.
 One of the things I want it to do is to make it easier to process output for arbitrary command line utilities.
-To do that, you'll subclass the provided base class and implement the relevant methods.
+To do that, you'd subclass the library's provided base class and implement the relevant methods, getting some base class functionality like async iteration for free.
 
 
-Some programs will output lines of text that are useful as streams, and others really only make sense to look at when the process is finished.
+Some CLI programs will output lines of text that are useful as streams, and others really only make sense to look at when the process is finished.
 To make it easier to deal with both cases, I want to provide a way to get the output as a stream, or as a single string when the process is finished.
 Some programs have a lot of output though, and it's not always desirable to keep it all in memory.
 Take for instance encoding a video through ffmpeg using an stdout pipe as the output.
@@ -24,14 +24,15 @@ It's not a huge deal, but it'd be nice to avoid it.
 Enter static typing.
 
 
-We can use mypy's `Protocol` to define a protocol that has a class variable, and then use that protocol as the self argument type on [method overloads](https://mypy.readthedocs.io/en/stable/more_types.html#function-overloading) to distinguish between the two cases:
+We can define a `Protocol` containing this class variable, and then use it as the `self` argument type for [method overloads](https://mypy.readthedocs.io/en/stable/more_types.html#function-overloading) to distinguish between the two (or more, in some other situation/abstraction) cases.
+Here's some code with the relevant ideas:
 
 
 <br>
 
 <script src="https://gist.github.com/pedrovhb/1f43ba2325c87893e3cc805b66fc5ca6.js?file=protocol_self_overload_1.py"></script>
 <details>
-  <summary><i>click here to see the snippet if the gist is down</i></summary>
+  <summary><i>click here to see the snippet if the gist is inaccessible</i></summary>
 
 ```python
 from __future__ import annotations
@@ -88,7 +89,7 @@ This way, we can get the best of both worlds - the user can choose whether to ke
 <br>
 <script src="https://gist.github.com/pedrovhb/1f43ba2325c87893e3cc805b66fc5ca6.js?file=protocol_self_overload_2.py"></script>
 <details>
-  <summary><i>click here to see the snippet if the gist is down</i></summary>
+  <summary><i>click here to see the snippet if the gist is inaccessible</i></summary>
 
 ```python
 class SubclassWithBuf(MyClassBase[str]):
@@ -118,10 +119,11 @@ reveal_type(SubclassWithoutBuf().get_stdout())
 
 
 I'm still not certain whether this is a good idea or not.
-On one hand, it avoids the need to create separate base classes, which can avoid a lot of complexity down the line if I decide that I want further subclasses of this.
+On one hand, it avoids the need to create separate base classes, which can avoid a lot of complexity down the line if I decide that I want to further subclass `MyClassBase`;
+ it'd be nice to avoid having to deal with mixins and multiple inheritance, and having two different children subclasses for each parent class would quickly get out of hand.
 On the other hand, it is a bit of a contrived idea for something that isn't particularly complex.
-It's also an eyesore to have to annotate the class variable with `ClassVar` and `Literal` instead of just assigning a value and letting mypy infer the type.
-It may be possible to do that, but I haven't figured out how.
+It's also an eyesore to annotate the class variable with `ClassVar` and `Literal` instead of just assigning a value and letting mypy infer the type.
 If I just assign a `False` or `True` value in the subclass' body, mypy will infer the variable's type as `bool` and won't consider it to be a literal, so the overloads won't function as expected.
+It may be possible to make that work (let me know if you have an answer), but I haven't figured out how to do it.
 Still, it's a neat trick, and I thought I'd share it.
 It's possible that there's similar situations where this could be useful, and I'll keep it in mind for the future.

@@ -1,5 +1,5 @@
 ---
-title: "Neat mypy trick - catch runtime exceptions with `typing.Protocol` and class variables"
+title: "Neat mypy trick - avoid runtime exceptions with Protocol and ClassVar"
 date: 2022-09-26T11:23:00-03:00
 draft: false
 ------------

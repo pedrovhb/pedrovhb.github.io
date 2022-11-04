@@ -6,10 +6,48 @@ draft: false
 
 I'm writing a little utility library that among other things deals with asynchronously managing subprocesses.
 One of the things I want it to do is to make it easier to process output for arbitrary command line utilities.
-To do that, you'd subclass the library's provided base class and implement the relevant methods, getting some base class functionality like async iteration for free.
+It's still early on in development, so I'm in the fun part of the process of playing with concepts, trying things out and deciding what the API should look like.
+That's just before the terrifying part of having to pick a name.
+Anyways, the idea at this time is that to wrap command line tools, you'd subclass the library's provided base class and implement the relevant methods (say, doing something for each line of output).
+By implementing a subclass, you're getting some base class functionality like async iteration and events for free.
 
 
 Some CLI programs will output lines of text that are useful as streams, and others really only make sense to look at when the process is finished.
+Compare `du` and `jpeg-recompress` for example.
+
+
+With `du`, the output is a stream of lines that each carry some information that can be acted on immediately.
+It could be useful to start processing them asynchronously as soon as they're available, instead of waiting for the process to finish.
+
+```bash
+$ du -h
+
+56	./.local/pipx/shared/lib/python3.10/site-packages/pkg_resources/_vendor/importlib_resources/__pycache__
+96	./.local/pipx/shared/lib/python3.10/site-packages/pkg_resources/_vendor/importlib_resources
+20	./.local/pipx/shared/lib/python3.10/site-packages/pkg_resources/_vendor/jaraco/text/__pycache__
+36	./.local/pipx/shared/lib/python3.10/site-packages/pkg_resources/_vendor/jaraco/text
+28	./.local/pipx/shared/lib/python3.10/site-packages/pkg_resources/_vendor/jaraco/__pycache__
+...
+```
+<br>
+
+
+With `jpeg-recompress`, I don't really care about intermediate output - I just want to know when the process is done and what the final result was -
+
+```bash
+$ jpeg-recompress input.jpg output.jpg
+Metadata size is 0kb
+ssim at q=67 (40 - 95): 0.999779
+ssim at q=81 (68 - 95): 0.999941
+ssim at q=74 (68 - 80): 0.999995
+ssim at q=70 (68 - 73): 0.999848
+ssim at q=72 (71 - 73): 0.999897
+Final optimized ssim at q=73: 0.999832
+New size is 71% of original (saved 140 kb)
+```
+<br>
+
+
 To make it easier to deal with both cases, I want to provide a way to get the output as a stream, or as a single string when the process is finished.
 Some programs have a lot of output though, and it's not always desirable to keep it all in memory.
 Take for instance encoding a video through ffmpeg using an stdout pipe as the output.

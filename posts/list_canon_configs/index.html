@@ -1,0 +1,954 @@
+<!doctype html><html lang=en itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>Pedro's Blog - Pedro's Blog</title><meta name=description content="I was playing around with my Canon T6 camera and gphoto2 for Python. The library worked great, but it was kind of finnicky to navegate the generated SWIG bindings and figure out what was there. Here&rsquo;s a handy script that lists all the available configurations for a camera:
+import gphoto2 as gp camera = gp.Camera() camera.init() def get_configs_dict(widget): &#34;&#34;&#34;Builds a dictionary with the current and possible configurations for a given camera."><meta name=author content="Pedro Batista"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"Pedro\u0027s Blog","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/pedrovhb.com\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/pedrovhb.com\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/pedrovhb.com\/posts\/list_canon_configs\/","name":""}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Pedro Batista"},"headline":"","description":"I was playing around with my Canon T6 camera and gphoto2 for Python. The library worked great, but it was kind of finnicky to navegate the generated SWIG bindings and figure out what was there. Here\u0026rsquo;s a handy script that lists all the available configurations for a camera:\nimport gphoto2 as gp camera = gp.Camera() camera.init() def get_configs_dict(widget): \u0026#34;\u0026#34;\u0026#34;Builds a dictionary with the current and possible configurations for a given camera.","inLanguage":"en","wordCount":1729,"datePublished":"0001-01-01T00:00:00","dateModified":"0001-01-01T00:00:00","image":"https:\/\/pedrovhb.com\/","keywords":[""],"mainEntityOfPage":"https:\/\/pedrovhb.com\/posts\/list_canon_configs\/","publisher":{"@type":"Organization","name":"https:\/\/pedrovhb.com\/","logo":{"@type":"ImageObject","url":"https:\/\/pedrovhb.com\/","height":60,"width":60}}}</script><meta property="og:title" content="Pedro's Blog"><meta property="og:description" content="I was playing around with my Canon T6 camera and gphoto2 for Python. The library worked great, but it was kind of finnicky to navegate the generated SWIG bindings and figure out what was there. Here&rsquo;s a handy script that lists all the available configurations for a camera:
+import gphoto2 as gp camera = gp.Camera() camera.init() def get_configs_dict(widget): &#34;&#34;&#34;Builds a dictionary with the current and possible configurations for a given camera."><meta property="og:url" content="https://pedrovhb.com/posts/list_canon_configs/"><meta property="og:type" content="website"><meta property="og:site_name" content="Pedro's Blog"><meta name=twitter:title content="Pedro's Blog"><meta name=twitter:description content="I was playing around with my Canon T6 camera and gphoto2 for Python. The library worked great, but it was kind of finnicky to navegate the generated SWIG bindings and figure out what was there. …"><meta name=twitter:card content="summary_large_image"><link href=https://pedrovhb.com/img/favicon.ico rel=icon type=image/x-icon><meta name=generator content="Hugo 0.109.0"><link rel=alternate href=https://pedrovhb.com/index.xml type=application/rss+xml title="Pedro's Blog"><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><script async defer data-website-id=b4adb5d5-7d6f-4f1a-951f-f8dc187469d6 src=https://do.pedrovhb.com/umm.js></script>
+<link rel=stylesheet href=https://pedrovhb.com/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://pedrovhb.com/css/highlight.min.css><link rel=stylesheet href=https://pedrovhb.com/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span></button>
+<a class=navbar-brand href=https://pedrovhb.com/>Pedro's Blog</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"><li><a title=Blog href=/>Blog</a></li><li><a title=About href=/page/about/>About</a></li></ul></div></div></nav><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><div class=intro-header></div><div class=container role=main><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><article role=main class=blog-post><p>I was playing around with my Canon T6 camera and <code>gphoto2</code> for Python.
+The library worked great, but it was kind of finnicky to navegate the generated SWIG bindings and figure out what was there.
+Here&rsquo;s a handy script that lists all the available configurations for a camera:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> gphoto2 <span style=color:#66d9ef>as</span> gp
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>camera <span style=color:#f92672>=</span> gp<span style=color:#f92672>.</span>Camera()
+</span></span><span style=display:flex><span>camera<span style=color:#f92672>.</span>init()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_configs_dict</span>(widget):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;Builds a dictionary with the current and possible configurations for a given camera.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    Usage:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        &gt;&gt;&gt; get_configs_dict(camera.get_config())
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    prop_data <span style=color:#f92672>=</span> {}
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> prop <span style=color:#f92672>in</span> <span style=color:#e6db74>&#34;name&#34;</span>, <span style=color:#e6db74>&#34;type&#34;</span>, <span style=color:#e6db74>&#34;value&#34;</span>, <span style=color:#e6db74>&#34;choices&#34;</span>, <span style=color:#e6db74>&#34;label&#34;</span>, <span style=color:#e6db74>&#34;range&#34;</span>:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>            val <span style=color:#f92672>=</span> getattr(widget, <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;get_</span><span style=color:#e6db74>{</span>prop<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)()
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> isinstance(val, gp<span style=color:#f92672>.</span>CameraWidgetChoiceIter):
+</span></span><span style=display:flex><span>                prop_data[prop] <span style=color:#f92672>=</span> [str(v) <span style=color:#66d9ef>for</span> v <span style=color:#f92672>in</span> val]
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>                prop_data[prop] <span style=color:#f92672>=</span> val
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>except</span> gp<span style=color:#f92672>.</span>GPhoto2Error <span style=color:#66d9ef>as</span> e:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>pass</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Get children properties</span>
+</span></span><span style=display:flex><span>    children <span style=color:#f92672>=</span> list(widget<span style=color:#f92672>.</span>get_children())
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> children:
+</span></span><span style=display:flex><span>        prop_data[<span style=color:#e6db74>&#34;children&#34;</span>] <span style=color:#f92672>=</span> [get_configs_dict(child) <span style=color:#66d9ef>for</span> child <span style=color:#f92672>in</span> children]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> prop_data
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> pprint <span style=color:#f92672>import</span> pprint
+</span></span><span style=display:flex><span>pprint(get_configs_dict(camera<span style=color:#f92672>.</span>get_config()))
+</span></span></code></pre></div><p>And a JSON dump of what comes up for mine, as example output:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;main&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>0</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Camera and Driver Configuration&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;children&#34;</span>: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;actions&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>1</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Camera Actions&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;children&#34;</span>: [
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;syncdatetimeutc&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>4</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#ae81ff>0</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Synchronize camera date and time with PC (UTC)&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;syncdatetime&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>4</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#ae81ff>0</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Synchronize camera date and time with PC&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;uilock&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>4</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;UI Lock&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;popupflash&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>4</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Popup Flash&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;autofocusdrive&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>4</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#ae81ff>0</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Drive Canon DSLR Autofocus&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;manualfocusdrive&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;None&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Near 1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Near 2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Near 3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;None&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Far 1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Far 2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Far 3&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Drive Canon DSLR Manual focus&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;cancelautofocus&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>4</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#ae81ff>0</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Cancel Canon DSLR Autofocus&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;eoszoom&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Canon EOS Zoom&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;eoszoomposition&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0,0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Canon EOS Zoom Position&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;viewfinder&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>4</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#ae81ff>0</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Canon EOS Viewfinder&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;eosremoterelease&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;None&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;None&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Press Half&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Press Full&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Release Half&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Release Full&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Immediate&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Press 1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Press 2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Press 3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Release 1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Release 2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Release 3&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Canon EOS Remote Release&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;eosmoviemode&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>4</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Movie Mode&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;opcode&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0x1001,0xparam1,0xparam2&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;PTP Opcode&#34;</span>
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;settings&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>1</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Camera Settings&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;children&#34;</span>: [
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;datetimeutc&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>8</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#ae81ff>1673642635</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Camera Date and Time&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;datetime&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>8</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#ae81ff>1673642635</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Camera Date and Time&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;reviewtime&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;None&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;None&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;2 seconds&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;4 seconds&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;8 seconds&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Hold&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Quick Review Time&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;output&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Off&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;TFT&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;PC&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;TFT + PC&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;MOBILE&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;TFT + MOBILE&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;PC + MOBILE&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;TFT + PC + MOBILE&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;MOBILE2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;TFT + MOBILE2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;PC + MOBILE2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;TFT + PC + MOBILE2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Off&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Camera Output&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;movierecordtarget&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;None&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;None&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Recording Destination&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;evfmode&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;EVF Mode&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;ownername&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Owner Name&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;artist&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Pedro von Hertwig&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Artist&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;copyright&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Copyright&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;customfuncex&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;bc,4,1,2c,3,101,1,0,103,1,1,10f,1,0,2,2c,3,201,1,0,202,1,3,203,1,0,3,14,1,50e,1,3,4,38,4,701,1,1,704,1,0,70e,1,1,811,1,0,&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Custom Functions Ex&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;focusinfo&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;eosversion=0,size=5184x3456,size2=5184x3456,points={{0,743,117,181},{-839,393,172,129},{839,393,172,129},{-1394,0,172,129},{0,0,224,222},{1394,0,172,129},{-839,-393,172,129},{839,-393,172,129},{0,-743,117,181}},select={},unknown={1000000 0ffff}&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Focus Info&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;strobofiring&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;2&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Strobo Firing&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;flashcharged&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Flash Charging State&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;autopoweroff&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;240&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Auto Power Off&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;depthoffield&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Depth of Field&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;capturetarget&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Internal RAM&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Internal RAM&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Memory card&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Capture Target&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;capture&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>4</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#ae81ff>0</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Capture&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;remotemode&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Remote Mode&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;eventmode&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Event Mode&#34;</span>
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;status&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>1</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Camera Status Information&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;children&#34;</span>: [
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;serialnumber&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;286755fad04869ca523320acce0dc6a4&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Serial Number&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;manufacturer&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Canon Inc.&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Camera Manufacturer&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;cameramodel&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Canon EOS Rebel T6&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Camera Model&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;deviceversion&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;3-1.1.0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Device Version&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;vendorextension&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Vendor Extension&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;model&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;2147484676&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Camera Model&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;ptpversion&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;256&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;PTP Version&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;100%&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Battery Level&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;batterylevel&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;100%&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Battery Level&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;lensname&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;EF-S55-250mm f/4-5.6 IS II&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Lens Name&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;eosserialnumber&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;133333333337&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Serial Number&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;shuttercounter&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;46950&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Shutter Counter&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;availableshots&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;35449&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Available Shots&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;eosmovieswitch&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Movie Switch&#34;</span>
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;imgsettings&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>1</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Image Settings&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;children&#34;</span>: [
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;imageformat&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;RAW&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Large Fine JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Large Normal JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Medium Fine JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Medium Normal JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Small Fine JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Small Normal JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Smaller JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Tiny JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;RAW + Large Fine JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;RAW&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Image Format&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;imageformatsd&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;RAW&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Large Fine JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Large Normal JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Medium Fine JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Medium Normal JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Small Fine JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Small Normal JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Smaller JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Tiny JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;RAW + Large Fine JPEG&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;RAW&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Image Format SD&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;iso&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Auto&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Auto&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;100&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;200&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;400&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;800&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1600&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;3200&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;6400&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;12800&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;ISO Speed&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;whitebalance&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Auto&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Auto&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;AWB White&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Daylight&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Shadow&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Cloudy&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Tungsten&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Fluorescent&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Flash&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Manual&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;WhiteBalance&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;whitebalanceadjusta&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-9&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-8&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-7&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-6&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-5&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-4&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;4&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;5&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;6&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;7&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;8&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;9&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;WhiteBalance Adjust A&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;whitebalanceadjustb&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-9&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-8&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-7&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-6&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-5&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-4&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;-1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;4&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;5&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;6&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;7&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;8&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;9&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;WhiteBalance Adjust B&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;whitebalancexa&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;3&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;WhiteBalance X A&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;whitebalancexb&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;3&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;WhiteBalance X B&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;colorspace&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;AdobeRGB&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;sRGB&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;AdobeRGB&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Color Space&#34;</span>
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;capturesettings&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>1</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Capture Settings&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;children&#34;</span>: [
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;exposurecompensation&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Exposure Compensation&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;focusmode&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Manual&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;One Shot&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;AI Focus&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;AI Servo&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Manual&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Focus Mode&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;aspectratio&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;3:2&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;3:2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;4:3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;16:9&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1:1&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Aspect Ratio&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;storageid&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;00020001&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Storage Device&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;autoexposuremode&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Manual&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;P&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;TV&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;AV&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Manual&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Bulb&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;A_DEP&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;DEP&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Custom&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Lock&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Green&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Night Portrait&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Sports&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Portrait&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Landscape&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Closeup&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Flash Off&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;C2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;C3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Creative Auto&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Movie&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Auto&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Handheld Night Scene&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR Backlight Control&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;SCN&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Food&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Grainy B/W&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Soft focus&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Toy camera effect&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Fish-eye effect&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Water painting effect&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Miniature effect&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR art standard&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR art vivid&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR art bold&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR art embossed&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Panning&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Self Portrait&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Hybrid Auto&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Smooth skin&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Fv&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Canon Auto Exposure Mode&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;autoexposuremodedial&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Manual&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;P&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;TV&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;AV&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Manual&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Bulb&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;A_DEP&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;DEP&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Custom&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Lock&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Green&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Night Portrait&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Sports&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Portrait&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Landscape&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Closeup&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Flash Off&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;C2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;C3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Creative Auto&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Movie&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Auto&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Handheld Night Scene&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR Backlight Control&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;SCN&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Food&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Grainy B/W&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Soft focus&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Toy camera effect&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Fish-eye effect&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Water painting effect&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Miniature effect&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR art standard&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR art vivid&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR art bold&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR art embossed&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Panning&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;HDR&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Self Portrait&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Hybrid Auto&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Smooth skin&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Fv&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Canon Auto Exposure Mode Dial&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;drivemode&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Continuous&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Single&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Continuous&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Timer 10 sec&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Timer 2 sec&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Continuous timer&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Drive Mode&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;picturestyle&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;User defined 3&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Auto&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Standard&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Portrait&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Landscape&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Neutral&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Faithful&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Monochrome&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;User defined 1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;User defined 2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;User defined 3&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Picture Style&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;aperture&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;5.6&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;5.6&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;6.3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;7.1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;8&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;9&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;10&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;11&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;13&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;14&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;16&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;18&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;20&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;22&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;25&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;29&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;32&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Aperture&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;shutterspeed&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;1/200&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;bulb&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;30&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;25&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;20&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;15&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;13&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;10.3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;8&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;6.3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;5&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;4&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;3.2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;2.5&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1.6&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1.3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0.8&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0.6&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0.5&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0.4&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0.3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/4&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/5&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/6&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/8&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/10&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/13&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/15&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/20&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/25&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/30&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/40&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/50&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/60&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/80&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/100&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/125&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/160&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/200&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/250&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/320&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/400&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/500&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/640&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/800&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/1000&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/1250&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/1600&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/2000&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/2500&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/3200&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;1/4000&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Shutter Speed&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;meteringmode&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Evaluative&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Evaluative&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Partial&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Center-weighted average&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Metering Mode&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;liveviewsize&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;val 0&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Large&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Medium&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Small&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Live View Size&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;bracketmode&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Unknown value 0000&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Unknown value 0000&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Bracket Mode&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;aeb&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;off&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;off&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;+/- 1/3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;+/- 2/3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;+/- 1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;+/- 1 1/3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;+/- 1 2/3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;+/- 2&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Auto Exposure Bracketing&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;alomode&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>5</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Standard (disabled in manual exposure)&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Standard (disabled in manual exposure)&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;x1&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;x2&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;x3&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Auto Lighting Optimization&#34;</span>
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;other&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>1</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Other PTP Device Properties&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;children&#34;</span>: [
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;d402&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Canon EOS Rebel T6&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;PTP Property 0xd402&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;d407&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;PTP Property 0xd407&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;d406&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;Unknown Initiator&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;PTP Property 0xd406&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;d303&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;PTP Property 0xd303&#34;</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        {
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;5001&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#ae81ff>6</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;value&#34;</span>: <span style=color:#e6db74>&#34;100&#34;</span>,
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;choices&#34;</span>: [
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;100&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;75&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;0&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;50&#34;</span>
+</span></span><span style=display:flex><span>          ],
+</span></span><span style=display:flex><span>          <span style=color:#f92672>&#34;label&#34;</span>: <span style=color:#e6db74>&#34;Battery Level&#34;</span>
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>(NB: I&rsquo;ve replaced serial number information above as it&rsquo;s not nice to have that out on the internet)</p></article><ul class="pager blog-pager"><li class=next><a href=https://pedrovhb.com/posts/probabilistic_data_structures/ data-toggle=tooltip data-placement=top title="Probabilistic data structures - bloom filters">Next Post &rarr;</a></li></ul></div></div></div><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"><li><a href=mailto:pedrovhb@gmail.com title="Email me" class="umami--click--Email me"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://github.com/pedrovhb title=GitHub class=umami--click--GitHub><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://linkedin.com/in/pedrovhb title=LinkedIn class=umami--click--LinkedIn><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li><li><a href=https://stackoverflow.com/users/5686598/pedro-von-hertwig-batista title=StackOverflow class=umami--click--StackOverflow><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="credits copyright text-muted"><a href=/page/about>Pedro Batista</a>
+&nbsp;&bull;&nbsp;&copy;
+2022
+&nbsp;&bull;&nbsp;
+<a href=https://pedrovhb.com/>Pedro's Blog</a></p><p class="credits theme-by text-muted"><a href=https://gohugo.io>Hugo v0.109.0</a> powered &nbsp;&bull;&nbsp; Theme <a href=https://github.com/halogenica/beautifulhugo>Beautiful Hugo</a> adapted from <a href=https://deanattali.com/beautiful-jekyll/>Beautiful Jekyll</a></p></div></div></div></footer><script src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin=anonymous></script>
+<script src=https://code.jquery.com/jquery-3.5.1.slim.min.js integrity=sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj crossorigin=anonymous></script>
+<script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script>
+<script src=https://pedrovhb.com/js/main.js></script>
+<script src=https://pedrovhb.com/js/highlight.min.js></script>
+<script>hljs.initHighlightingOnLoad()</script><script>$(document).ready(function(){$("pre.chroma").css("padding","0")})</script><script>renderMathInElement(document.body)</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://pedrovhb.com/js/load-photoswipe.js></script></body></html>
